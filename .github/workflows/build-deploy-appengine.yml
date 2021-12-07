@@ -1,0 +1,36 @@
+name: Build and deploy the today-i-learned application to Google App Engine
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Build application jar
+        run: ./mvnw clean package
+
+      - name: Google Auth
+        id: 'gcp auth'
+        uses: 'google-github-actions/auth@v0.4.0'
+        with:
+          project_id: 'today-i-learned'
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: Deploy to Google App Engine
+        id: 'gcp deploy'
+        run: gcloud app deploy target/today-i-learned-1.0.0-SNAPSHOT-runner.jar
+
+
+

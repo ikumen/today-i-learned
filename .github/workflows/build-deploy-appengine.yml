@@ -12,6 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: Set up Python version
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.9'
+
+      - name: Generate static html content from markdown files
+        run: |
+          pip install -r requirements.txt
+          python deploy/static-site/generate.py
+
       - name: Setup Java
         uses: actions/setup-java@v2
         with:

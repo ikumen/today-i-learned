@@ -12,7 +12,13 @@
 # below:
 .git
 .gitignore
+.venv
 .idea
+.github
+.DS_Store
+
 
 # Target directory for maven builds
-target/
+target
+deploy
+

@@ -108,11 +108,13 @@ for sec_name, sec_path in sections.items():
     _generated_path = generated_dir_path.joinpath(_rel_generated_path)
     if md_path.name == readme_file:
       notes_to_generate[md_path] = _generated_path.joinpath(index_file)
-      normalized_paths[f"/{_parent_path}"] = f"/{_rel_generated_path}"
+      # notes_to_generate[md_path] = _generated_path
+      normalized_paths[f"/{_parent_path}"] = f"/{_rel_generated_path}/"
     else:
       _file = md_path.name[:-3].lower()
       notes_to_generate[md_path] = _generated_path.joinpath(f"{_file}/{index_file}")
-      normalized_paths[f"/{md_path}"] = f"/{_rel_generated_path.joinpath(_file)}"
+      # notes_to_generate[md_path] = _generated_path.joinpath(_file)
+      normalized_paths[f"/{md_path}"] = f"/{_rel_generated_path.joinpath(_file)}/"
 
 # When trying to normalize paths, parent directories are picked up before 
 # children by the replace method, so replace children paths first. We 

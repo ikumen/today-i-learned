@@ -23,8 +23,11 @@ work for our website. Below is an example mapping:
               
 
 """
+import os
+import sys
 import mistune
 import re
+import time
 
 from pathlib import Path
 from pygments import highlight
@@ -83,6 +86,17 @@ with open("deploy/static-site/layout.html") as f:
   layout_prefix, layout_suffix = f.read().split("@@content@@")
 
 
+def convert_to_kebabcase(s):
+  newstr = ''
+  for c in s:
+    if c.isupper():
+      if newstr != '':
+        newstr += '-'
+      newstr += c.lower()
+    else:
+      newstr += c
+  return newstr
+
 """
 Build a mapping of all markdown files that are processed will use this mapping 
 to update any references, for example:
@@ -97,6 +111,7 @@ normalized_paths (hrefs external => internal)
 """
 notes_to_generate = {}
 normalized_paths = {}
+file_stats = {}
 for sec_name, sec_path in sections.items():
   if not sec_path.exists():
     continue
@@ -106,15 +121,19 @@ for sec_name, sec_path in sections.items():
     _rel_parent_path = md_path.parent.relative_to(sec_path)
     _rel_generated_path = Path(f"notes/{sec_name}/{str(_rel_parent_path)}")
     _generated_path = generated_dir_path.joinpath(_rel_generated_path)
+    file_stats[md_path] = os.stat(md_path).st_mtime
     if md_path.name == readme_file:
       notes_to_generate[md_path] = _generated_path.joinpath(index_file)
       # notes_to_generate[md_path] = _generated_path
       normalized_paths[f"/{_parent_path}"] = f"/{_rel_generated_path}/"
     else:
-      _file = md_path.name[:-3].lower()
+      _file = convert_to_kebabcase(md_path.name[:-3]) #.lower()
       notes_to_generate[md_path] = _generated_path.joinpath(f"{_file}/{index_file}")
       # notes_to_generate[md_path] = _generated_path.joinpath(_file)
       normalized_paths[f"/{md_path}"] = f"/{_rel_generated_path.joinpath(_file)}/"
+
+main_read_me_path = Path(readme_file)
+file_stats[main_read_me_path] = os.stat(main_read_me_path).st_mtime
 
 # When trying to normalize paths, parent directories are picked up before 
 # children by the replace method, so replace children paths first. We 
@@ -163,6 +182,34 @@ def generate_main_index():
       writer.write(layout_prefix + markdown(md_text) + layout_suffix)
 
 
+def detect_modifications():
+  mod_files = []
+  for file, cached in file_stats.items():
+    mtime = os.stat(file).st_mtime
+    if cached != mtime:
+      mod_files.append(file.name)
+      file_stats[file] = mtime
+  return mod_files  
+
+
+def watch_and_generate():
+  print("Watching for changes....")
+  while True:
+    try:
+      time.sleep(3)
+      mod_files = detect_modifications()
+      if mod_files:
+        print(f"Changed detected in {mod_files}")
+        generate_main_index()
+        generate_notes()
+    except:
+      print("done.")
+      sys.exit(0)
+
+
 if __name__ == "__main__":
-  generate_main_index()
-  generate_notes()
+  if len(sys.argv) > 1 and sys.argv[1] == "-w":
+    watch_and_generate()
+  else:
+    generate_main_index()
+    generate_notes()

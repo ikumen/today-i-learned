@@ -60,7 +60,6 @@ removeLast() | Remove and return the item from the end of the list | O(1)
 
 [DoublyLinkedList.java](/src/main/java/com/gnoht/til/datastructures/DoublyLinkedList.java)
 
-
 #### Stack
 
 Data structure that consists of a collection of items stored in a FILO (e.g, like a stack of plates). Most stacks are backed by some type of a linked-list structure.

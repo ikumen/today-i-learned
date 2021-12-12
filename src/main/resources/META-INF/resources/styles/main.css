@@ -1,6 +1,15 @@
-html, body { margin: 0; font-family: system-ui, sans-serif; font-size: 1.1rem; }
 html { line-height: 1.15; -webkit-text-size-adjust: 100%;}
+html, body { 
+  margin: 0; font-family: system-ui, sans-serif; font-size: 1.1rem; 
+}
 table { border-collapse: collapse; padding: 0; margin: 0; font-size: .9rem;}
 td, th { border: 1px solid; padding: 4px 20px; margin: 0;}
 tr { padding: 0; border: 1px solid}
-h4, h3, h2 { margin-top: 2.4rem;}
+h4, h3, h2 { margin-top: 2.4rem; }
+ul {
+  list-style-type: none;
+  padding: 0; margin: 0;
+}
+li {
+  padding: 2px 0;
+}

@@ -150,6 +150,7 @@ def normalize_paths(md_text):
   for ext_path in normalized_ext_paths:
     md_text = re.sub(r']\(({}(#\S+)?\))'.format(ext_path), r']({}\2)'.format(normalized_paths[ext_path]), md_text)
     # md_text = md_text.replace(ext_path, normalized_paths[ext_path])
+  md_text = re.sub(r']\(https://til.gnoht.com', '](', md_text)
   return md_text
   
 

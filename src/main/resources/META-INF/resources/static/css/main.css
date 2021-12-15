@@ -1,0 +1,90 @@
+html { font-size: 18px; line-height: 1.4;}
+html, body { margin: 0; }
+table { border-collapse: collapse; padding: 0; margin: 0; font-size: .9rem;}
+td, th { border: 1px solid; padding: 4px 20px; margin: 0;}
+tr { padding: 0; border: 1px solid}
+h4, h3, h2 { margin-top: 2.4rem; }
+a { text-decoration: none; color: darkblue; font-weight: 500;}
+a:hover { text-decoration: underline; }
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+li, li p {
+  padding: 0;
+  margin: 0;
+}
+.mask { display: none; }
+.reverse { 
+  unicode-bidi:bidi-override; 
+  direction: rtl; 
+  float:left; 
+  padding-right: 20px;
+  align-content: left;
+}
+
+
+@font-face {
+  font-family: 'main';
+  src: url('../font/main.eot?83258443');
+  src: url('../font/main.eot?83258443#iefix') format('embedded-opentype'),
+       url('../font/main.woff2?83258443') format('woff2'),
+       url('../font/main.woff?83258443') format('woff'),
+       url('../font/main.ttf?83258443') format('truetype'),
+       url('../font/main.svg?83258443#main') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'main';
+    src: url('../font/main.svg?83258443#main') format('svg');
+  }
+}
+*/
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "main";
+  font-style: normal;
+  font-weight: normal;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-mail:before { content: '\e800'; } /* '' */
+.icon-picture:before { content: '\e801'; } /* '' */
+.icon-book:before { content: '\e802'; } /* '' */
+.icon-bookmark-empty:before { content: '\f097'; } /* '' */
+.icon-github-circled:before { content: '\f09b'; } /* '' */
+.icon-doc-text:before { content: '\f0f6'; } /* '' */
+.icon-stackoverflow:before { content: '\f16c'; } /* '' */

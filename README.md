@@ -1,16 +1,11 @@
-## Today I Learned 
-A collection of things I've learned 
+A collection of things I've learned in the form of code snippets, notes, and mini demo applications. 
 
-### Algorithms
+Infrastructure wise it's a Quarkus application that serves a static site, and API for some application logic to run demos, all running on Google App Engine. 
 
-* [Conways Game of Life](https://til.gnoht.com/demos/conways-game-of-life/) ([source](/src/main/resources/META-INF/resources/demos/conways-game-of-life/sketch.js)) - simple implementation using [p5js](https://p5js.org/)
-* [Huffman coding](/src/main/java/com/gnoht/til/huffman_coding)
-* [Minimum Spanning Tree](https://til.gnoht.com/demos/minimum-spanning-tree/) ([source](/src/main/resources/META-INF/resources/demos/minimum-spanning-tree/sketch.js)) - an MST generated using [Prim's algorithm](https://en.wikipedia.org/wiki/Prim%27s_algorithm), demo running on p5js
-* [BFS and DFS](/demos/bfs-dfs-maze) - demonstration of BFS and DFS traversing a maze
+The workflow goes something like this:
+* I edit and preview Markdown locally
+* optionally I can add any application logic for demos since it's a Java app server
+* push my changes to GitHub where an Action will
+  1. parse the Markdown and generate a static site
+  2. publish the static site and application to Google App Engine
 
-### Data Structures
-
-* [Heap](/src/main/java/com/gnoht/til/datastructures#heap)
-* [Linked List](/src/main/java/com/gnoht/til/datastructures)
-* [Queue](/src/main/java/com/gnoht/til/datastructures)
-* [Stack](/src/main/java/com/gnoht/til/datastructures#stack)

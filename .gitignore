@@ -40,4 +40,4 @@ nb-configuration.xml
 
 src/main/resources/META-INF/resources/index.html
 src/main/resources/META-INF/resources/notes
-
+**/__pycache__

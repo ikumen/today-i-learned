@@ -13,172 +13,6 @@ from pathlib import Path
 from parser import create_renderer
 
 
-# def convert_to_kebabcase(s):
-#   """Convert given string to lower and kebabcase
-#   (e.g., SomeString => some-string).
-#   """
-#   newstr = ''
-#   for c in s:
-#     if c.isupper():
-#       if newstr != '':
-#         newstr += '-'
-#       newstr += c.lower()
-#     else:
-#       newstr += c
-#   return newstr
-
-
-# --- Globals ---
-# file_stats = {}
-# front_matter = {}
-# readme_file = "README.md"
-# index_file = "index.html"
-# markdown = create_renderer()
-
-# input_dir = "posts"
-# input_dir_path = Path(input_dir)
-
-# output_dir = "src/main/resources/META-INF/resources"
-# output_dir_path = Path(output_dir)
-
-# if not output_dir_path.exists():
-#     output_dir_path.mkdir(parents=True)
-
-# readme_path = Path(readme_file)
-# layout_path = Path("deploy/static-site/layout.html")
-# layout = Layout(layout_path)
-
-
-# --- Globals end ---
-
-
-# def generate_html(md_path: Path, html_path: Path):
-#   """Generate the html page for given markdown.
-#   """
-#   if not html_path.exists():
-#     html_path.mkdir(parents=True)
-
-#   with open(md_path) as reader:
-#     md_text = reader.read()
-#     fm, md_text = extract_frontmatter(md_text)
-#     if fm:
-#       front_matter[html_path] = fm
-#     with open(html_path.joinpath(index_file), "w") as writer:
-#       writer.write(layout.prefix + markdown(md_text) + layout.suffix)
-
-
-# def generate_all(generate_only=None):
-#   """Iterate through all markdowns and if no filter (e.g, generate_only given), 
-#   generate all or only apply filter.
-#   """
-#   if generate_only is None:
-#     generate_only = []
-
-#   generated = []
-#   def _generate(md_path):
-#     """Do actual work
-#     """
-#     nonlocal generated
-#     if generate_only and md_path not in generate_only:
-#       return
-
-#     html_path = output_dir_path.joinpath(md_path.parent.relative_to(input_dir_path))
-#     if md_path.name == readme_file:
-#       generate_html(md_path, html_path)
-#     else:
-#       generate_html(md_path, html_path.joinpath(md_path.name[:-3]))
-#     file_stats[md_path] = os.stat(md_path).st_mtime
-#     generated.append(str(md_path))
-
-#   # Generate html from <repo>/posts
-#   for md_path in input_dir_path.glob("**/*.md"):
-#     _generate(md_path)
-
-#   # Update the main index page
-#   generate_main_index()
-#   return generated
-
-
-
-# def generate_main_index():
-#   html_path = output_dir_path.joinpath(index_file)
-#   with open(readme_path) as reader:
-#     md_text = reader.read()
-#     prefix, suffix = md_text.split("<!-- @@content@@ -->")
-#     prefix += '<ul>'
-#     for p, meta in front_matter.items():
-#       prefix += f"""
-#       <li class="mb3">
-#       <article class="f5"><a href="/{p.relative_to(output_dir)}/">{meta["title"]}</a></article>
-#       {meta["description"]}
-#       </li>
-#       """
-#     md_text = prefix + '</ul>' + suffix
-#     with open(html_path, "w") as writer:
-#       writer.write(layout.prefix + markdown(md_text) + layout.suffix)
-
-
-# def has_modifications(file_path):
-#   mtime = os.stat(file_path).st_mtime
-#   if file_path not in file_stats or file_stats[file_path] != mtime:
-#     file_stats[file_path] = mtime
-#     return True
-#   return False
-
-# posts: Dict[Path, Post] = {}
-
-# def on_posts_changed(ignores=None, force=False):
-#   if ignores is None:
-#     ignores = []
-
-#   processed = 0
-#   for md_path in input_dir_path.glob("**/*.md"):
-#     if md_path in ignores: 
-#       continue      
-#     if md_path not in posts:
-#       html_path = (output_dir_path
-#           .joinpath(md_path.parent.relative_to(input_dir_path))
-#           .joinpath(md_path.name[:-3])
-#           .joinpath(index_file))
-#       posts[md_path] = Post(md_path, html_path)
-
-#     post = posts[md_path]
-#     if force or post.has_modifications():
-#       _, text = post.parse()
-#       with open(post.html_path, "w") as writer:
-#         writer.write(layout.prefix + markdown(text) + layout.suffix)
-#       processed += 1
-#   return processed
-
-
-# def on_index_changed(site_index: SiteIndex, force=False):
-#   if site_index is None:
-#     md_path = input_dir_path.joinpath(index_file)
-#     html_path = (output_dir_path
-#         .joinpath(md_path.parent.relative_to(input_dir_path))
-#         .joinpath(index_file))
-#     site_index = SiteIndex(md_path, html_path)
-#   if site_index.has_modifications():
-#     with open(site_index.html_path, "w") as writer:
-#       writer.write(layout.prefix + site_index.parse() + layout.suffix)
-
-# def on_layout_changed():
-#   layout.reload()
-#   on_posts_changed(force=True)
-#   on_index_changed(force=True)
-
-# def detect_modifications():
-#   """Iterate through all markdown files and check if any have been
-#   modified since we last checked.
-#   """
-#   mod_files = []
-#   # detect everything in <repo>/posts
-#   for md_path in input_dir_path.glob("**/*.md"):
-#     if has_modifications(md_path):
-#       mod_files.append(md_path)
-#   return mod_files
-
-##### Globals
 def extract_frontmatter(md_text):
   matches = re.findall(r'^\s*---\s*(.*)\s*---\n(.*)', md_text, re.DOTALL)
   if matches and len(matches[0]) == 2:
@@ -208,23 +42,6 @@ class Layout:
       self.prefix, self.suffix = reader.read().split("@@content@@")
 
 
-# input_path = Path("posts")
-# output_path = Path("src/main/resources/META-INF/resources")
-# index_html = "index.html"
-# index_md = "index.md"
-# index_html_path = output_path.joinpath(index_html)
-# index_md_path = input_path.joinpath(index_md)
-
-# layout_path = Path("deploy/static-site/layout.html")
-# layout = Layout(layout_path)
-
-# listing_item_template = """
-# <li class="mb3">
-# <div class="f5"><a href="{link}">{title}</a></div>
-# {description}
-# </li>
-# """
-
 class Post:
   def __init__(self, md_path: Path, html_path: Path, link: str = None):
     self.md_path = md_path
@@ -233,7 +50,7 @@ class Post:
     self.fm = None
     self.mtime = None
 
-  def html_parent(self):
+  def html_parent(self) -> Path:
     return self.html_path.parent
 
   def has_modifications(self):
@@ -286,6 +103,9 @@ class SiteGenerator:
         writer.write(self.layout.prefix + html + self.layout.suffix)
 
   def renderer_post(self, post: Post):
+    if not post.html_parent().exists():
+      post.html_parent().mkdir(parents=True)
+
     fm, md_text = post.load_markdown()
     with open(post.html_path, "w") as writer:
       writer.write(self.layout.prefix + self.renderer(md_text) + self.layout.suffix)
@@ -352,50 +172,6 @@ class SiteGenerator:
     </li>"""
 
 
-
-# def watch_and_generate():
-#   print(f"Watching {input_dir} for changes...")
-#   mtimes = dict(layout_path=None, input_path=None)
-#   while True:
-#     try:
-#       time.sleep(3)
-#       # if layout changed reload layout and regen all
-#       if has_modifications(mtimes):
-#         gen()
-#     except KeyboardInterrupt:
-#       print("... done.")
-#       sys.exit(0)
-#     except:
-#       traceback.print_exc()
-#       sys.exit(1)
-
-# def watch_and_generate_old():
-#   print("Watching for changes....")
-#   while True:
-#     try:
-#       time.sleep(3)
-#       generated = []
-#       layout_modified = has_modifications(layout_path)
-#       main_index_modified = has_modifications(readme_path)
-#       if not file_stats or layout_modified or main_index_modified:
-#         if layout_modified:
-#           layout.reload()
-#         generated = generate_all()
-#       else:
-#         mod_files = detect_modifications()
-#         if mod_files:
-#           generated = generate_all(generate_only=mod_files)
-        
-#       if generated:
-#         print(f"Generated html for: {generated}")
-#     except KeyboardInterrupt:
-#       print("Done.")
-#       sys.exit(0)
-#     except:
-#       traceback.print_exc()
-#       sys.exit(1)
-
-
 if __name__ == "__main__":
   site_generator = SiteGenerator(
       input_dir="posts",
@@ -407,15 +183,4 @@ if __name__ == "__main__":
     site_generator.watch_and_generate()
   else:
     site_generator.generate_all()
-  # cache = {}
-  # while True:
-  #   try:
-  #     time.sleep(3)
-  #     paths = list(Path("posts").glob("**")) + [Path("deploy/static-site")]
-  #     for path in paths:
-  #       mtime = os.stat(path).st_mtime
-  #       if cache.get(path) != mtime:
-  #         print('changed')
-  #         cache[path] = mtime
-  #   except KeyboardInterrupt:
-  #     sys.exit(0)
+  

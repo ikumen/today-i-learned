@@ -104,13 +104,16 @@ class GameOfLife {
 }
 
 let game;
+const canvasHelper = getCanvasHelper('canvas');
+const ht = Math.floor((canvasHelper.availHeight - 50) / 10) * 10
+const wd = Math.round(canvasHelper.availWidth / 10) * 10;
 
 function setup() {
-  const canvasEl = document.getElementById("canvas");
-  const canvasStyle = getComputedStyle(canvasEl);
-  const ht = (Math.floor(windowHeight / 10) * 10) - 100;
-  const wd = Math.round((canvasEl.clientWidth - parseFloat(canvasStyle.paddingLeft) - parseFloat(canvasStyle.paddingLeft)) / 10) * 10;
-  createCanvas(wd, ht).parent(canvasEl)  
+  // const canvasEl = document.getElementById("canvas");
+  // const canvasStyle = getComputedStyle(canvasEl);
+  // const ht = (Math.floor(windowHeight / 10) * 10) - 100;
+  // const wd = Math.round((canvasEl.clientWidth - parseFloat(canvasStyle.paddingLeft) - parseFloat(canvasStyle.paddingLeft)) / 10) * 10;
+  createCanvas(wd, ht).parent(canvasHelper.canvas)  
   textSize(18);
   frameRate(8)
   stroke(255)

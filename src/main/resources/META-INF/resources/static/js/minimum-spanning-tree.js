@@ -138,14 +138,11 @@ class MST {
 }
 
 const mst = new MST();
-let ht, wd, ht2, wd2;
+const canvasHelper = getCanvasHelper('canvas');
+const ht = canvasHelper.availHeight - 100;
+const wd = canvasHelper.availWidth;
 function setup() {
-  const canvasEl = document.getElementById("canvas");
-  const canvasStyle = getComputedStyle(canvasEl);
-  ht = windowHeight - 200;
-  wd = canvasEl.clientWidth - parseFloat(canvasStyle.paddingLeft) - parseFloat(canvasStyle.paddingLeft) - 100;
-  createCanvas(wd, ht).parent(canvasEl)  
-
+  createCanvas(wd, ht).parent(canvasHelper.canvas);  
   frameRate(10);
   fill(0)
   stroke(0)

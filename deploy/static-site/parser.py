@@ -30,7 +30,7 @@ class CustomRenderer(mistune.Renderer):
     return s
 
 
-def create_renderer(escape=False, parse_block_html=True, parse_inline_html=True):
+def create_renderer(escape=False, parse_block_html=False, parse_inline_html=False):
   return mistune.Markdown(
               renderer=CustomRenderer(), 
               escape=escape, 

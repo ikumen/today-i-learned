@@ -1,8 +1,35 @@
-# Huffman Coding
+---
+title: Huffman Coding
+tags: algorithms, prefix-code, lossless
+description: Huffman coding is an algorithm for lossless compression of data, this post is a brief introduction to the algorithm with a nice demo
+---
 
-Huffman coding is an algorithm for compressing data. Huffman coding analyzes source data and generates a new encoding scheme that is more specific to the data, usually this results in a smaller code representation of the original data. Data in this context can be anything (e.g, text, audio, photo, ...), but it's common for text data to have the least efficient encoding scheme and benefits the most from compressing. We will use text data in our examples.
+## Huffman Coding
 
-To understand how Huffman coding works, we need to think about how text data is represented. At the lowest level, all data can be reduced to a bit, consisting of two states, 0 or 1. From there, we can logically group bits to form additional data types. For example, 8 bits grouped together is commonly called a byte, consisting of 256 (2^8) possible states.
+Huffman coding is an algorithm for lossless compression of data. 
+
+<div class="w-100">
+  <textarea id="data" class="w-100 mb2" maxlength="10000" rows="5" placeholder="Paste in some text to encode"></textarea><br/>
+  <button id="encode-btn">encode</button> <button id="clear-btn">clear</button>
+</div>
+<div class="tr fw5">Results</div>
+<div class="w-100 mt2 pa2 f7 bg-washed-yellow">
+  <div id="encoding">Encoding: <p></p></div>
+  <div id="encoding-table">Code Table: <p></p></div>
+  <div id="stats">
+  Original bits: <br/>
+  Encoded bits:
+  </div>
+</div>
+
+<script src="/static/js/huffman-coding.js"></script>
+
+
+### How it works
+
+Huffman coding analyzes source data and generates a new encoding scheme that is more specific to the data, usually this results in a smaller code representation of the original data. Data in this context can be anything (e.g, text, audio, photo, ...), but it's common for text data to have the least efficient encoding scheme and benefits the most from compressing. We will use text data in our examples.
+
+To understand how Huffman coding works, we need to think about how data is represented on a computer. At the lowest level, all data can be reduced to a bit, consisting of two states, 0 or 1. From there, we can logically group bits to form additional data types. For example, 8 bits grouped together is commonly called a byte, consisting of 256 (2^8) possible states.
 
 Encoding schemes have been established to define how data can be mapped to bits. One such [encoding scheme is US-ASCII](https://en.wikipedia.org/wiki/ASCII), it maps the English alphabet and common symbols to a fixed-width of 8 bits. Let's take a look at how "abcdef" would be encoded in ASCII as bits.
 
@@ -86,15 +113,21 @@ To recap, fixed-width encoding like US-ASCII can be inefficient, and variable-wi
 1. how to handle ambiguity (e.g, where one code ends and another starts)
 2. how to map most frequent data to short codes, and less frequent data to longer codes
 
-Huffman coding can produce variable-width encoding and address both issues above, using the idea of a Huffman tree. Huffman trees are binary trees where the leaf nodes represent a datum (a character since we are working with text data), and the path from root to each leaf represents the encoding. 
+Huffman coding can produce variable-width encoding and address both issues above, using the idea of a Huffman tree to produce the encoding table. 
 
+Huffman trees are binary trees where the leaf nodes represent a data value (in our case, a character since we are working with text data), and the path from root to each leaf represents the encoding. Traversing left or right down subtrees gets an encoding of either 0 or 1 depending on our scheme.
+
+```bash
+ example Huffman tree
+     *              a = 0
+  0/   \1           b = 10
+  a     *           c = 11
+      0/  \1
+      b   c 
 ```
-    *
-  /  \
- a    *
-     / \
-    b   c 
-```
+
+To generate a Huffman tree we will use a priority queue, specifically a min heap as we will build the tree bottom up with the less frequent data values as leaf nodes on the bottom of the tree. Again the farther down the tree, the longer the encoding.
+
 
 
 ```java

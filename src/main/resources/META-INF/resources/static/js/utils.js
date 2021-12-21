@@ -73,6 +73,16 @@ function el(id, tagName, parent) {
   return props;
 }
 
+function sketchHelper(id) {
+  const el = document.getElementById(id);
+  const style = getComputedStyle(el);
+  return {
+    get: () => el, 
+    height: window.innerHeight - el.getBoundingClientRect().y,
+    width: el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)
+  }
+}
+
 function getCanvasHelper(id) {
   const cEl = document.getElementById(id);
   const cStyle = getComputedStyle(cEl);
@@ -82,3 +92,102 @@ function getCanvasHelper(id) {
     availWidth: cEl.clientWidth - parseFloat(cStyle.paddingLeft) - parseFloat(cStyle.paddingLeft)
   }
 }
+
+class Heap {
+  constructor() {
+    this.vals = [];
+  }
+
+  push(val) {
+    if (!('priority' in val))
+      throw new 'Heap object must have a comparable priority property!'
+    this.vals.push(val);
+    this.shiftUp(this.vals.length-1);
+  }
+
+  pop() {
+    if (this.vals.length == 0) 
+      return;
+    const val = this.vals[0];
+    const last = this.vals.pop();
+    if (this.vals.length != 0) {
+      this.vals[0] = last;
+      this.shiftDown(0);
+    }
+    return val;
+  }
+
+  swap(i, k) {
+    const tmp = this.vals[i];
+    this.vals[i] = this.vals[k];
+    this.vals[k] = tmp;
+  }
+
+  isEmpty() {
+    return this.vals.length == 0;
+  }
+
+  shiftDown(i){ /* not implemented */ }
+  shiftUp(i){ /* not implemented */ }
+}
+
+class MinHeap extends Heap {
+  shiftDown(i) {
+    const left = (i + 1) * 2 - 1;
+    const right = left + 1;
+    let maxi = i;
+
+    if (left < this.vals.length && this.vals[left].priority < this.vals[maxi].priority) {
+      maxi = left;
+    } else if (right < this.vals.length && this.vals[right].priority < this.vals[maxi].priority) {
+      maxi = right;
+    }
+    if (maxi != i) {
+      this.swap(i, maxi);
+      this.shiftDown(maxi);
+    }
+  }
+
+  shiftUp(i) {
+    if (i == 0)
+      return;
+
+    const parent = Math.floor((i + 1) / 2) - 1;
+    if (this.vals[i].priority < this.vals[parent].priority) {
+      this.swap(i, parent);
+      this.shiftUp(parent);
+    }
+  }
+}
+
+class MaxHeap {
+  shiftDown(i) {
+    const left = (i + 1) * 2 - 1;
+    const right = left + 1;
+    let maxi = i;
+
+    if (left < this.vals.length && this.vals[left].priority > this.vals[maxi].priority) {
+      maxi = left;
+    } else if (right < this.vals.length && this.vals[right].priority > this.vals[maxi].priority) {
+      maxi = right;
+    }
+    if (maxi != i) {
+      this.swap(i, maxi);
+      this.shiftDown(maxi);
+    }
+  }
+
+  shiftUp(i) {
+    if (i == 0)
+      return;
+
+    const parent = (i + 1) / 2 - 1;
+    if (this.vals[i].priority > this.vals[parent].priority) {
+      this.swap(i, parent);
+      this.shiftUp(parent);
+    }
+  }
+}
+
+
+

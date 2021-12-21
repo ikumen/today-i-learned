@@ -25,7 +25,7 @@ function createMatrix(rows, cols, val=false) {
 /**
  * Given a generation, draw it on the canvas.
  */
-function drawGeneration({cells, population, year}) {
+function drawGeneration({cells, population, year}, genLabel, popLabel) {
   const rows = cells.length;
   const cols = cells[0].length;
   
@@ -35,11 +35,9 @@ function drawGeneration({cells, population, year}) {
         square(c * 10, r * 10, 10);
     }
   }
-    
-  line(0, (rows * 10) + 1, cols * 10, (rows * 10) + 3); 
-  text('Generation: ' + year, 0, (rows * 10) + 22);
-  text('Population: ' + population, 0, (rows * 10) + 42);
   
+  genLabel.html(" &nbsp; Generation: " + year);
+  popLabel.html(" &nbsp; Population: " + population)
 }
 
 /**
@@ -103,26 +101,46 @@ class GameOfLife {
   }  
 }
 
-let game;
+let game, generationLabel, populationLabel;
 const canvasHelper = getCanvasHelper('canvas');
-const ht = Math.floor((canvasHelper.availHeight - 50) / 10) * 10
+const ht = Math.floor((canvasHelper.availHeight - 100) / 10) * 10
 const wd = Math.round(canvasHelper.availWidth / 10) * 10;
 
 function setup() {
-  // const canvasEl = document.getElementById("canvas");
-  // const canvasStyle = getComputedStyle(canvasEl);
-  // const ht = (Math.floor(windowHeight / 10) * 10) - 100;
-  // const wd = Math.round((canvasEl.clientWidth - parseFloat(canvasStyle.paddingLeft) - parseFloat(canvasStyle.paddingLeft)) / 10) * 10;
+  let fr = 5;
   createCanvas(wd, ht).parent(canvasHelper.canvas)  
-  textSize(18);
-  frameRate(8)
+  textSize(5);
+  frameRate(fr)
   stroke(255)
   fill(0);
 
-  game = new GameOfLife(wd, ht-50);
+  function adjustFrameRate(inc) {
+    if ((inc < 0 && fr > 1) || (inc > 0 && fr < 20)) {
+      fr += inc;
+      speedLabel.html("Speed: " + fr + " &nbsp;")
+      frameRate(fr);
+    }
+  }
+
+  game = new GameOfLife(wd, ht);
+  speedLabel = createSpan("Speed: " + fr + " &nbsp;");
+  speedLabel.parent(canvasHelper.canvas);
+
+  slowBtn = createButton("slower")
+  slowBtn.parent(canvasHelper.canvas);
+  slowBtn.mousePressed(() => adjustFrameRate(-1));
+  createSpan(" ").parent(canvasHelper.canvas);
+  fastBtn = createButton("faster");
+  fastBtn.parent(canvasHelper.canvas);
+  fastBtn.mousePressed(() => adjustFrameRate(1));
+  
+  generationLabel = createSpan(" &nbsp; Generation: ")
+  generationLabel.parent(canvasHelper.canvas);
+  populationLabel = createSpan(" &nbsp; Population: ")
+  populationLabel.parent(canvasHelper.canvas);
 }
 
 function draw() {
   background(204, 229, 255)
-  drawGeneration(game.evolve());
+  drawGeneration(game.evolve(), generationLabel, populationLabel);
 }

@@ -137,17 +137,19 @@ class MST {
   }
 }
 
+const sketch = sketchHelper('sketch');
+const ht = sketch.height - 100;
+const wd = sketch.width;
 const mst = new MST();
-const canvasHelper = getCanvasHelper('canvas');
-const ht = canvasHelper.availHeight - 100;
-const wd = canvasHelper.availWidth;
+
 function setup() {
-  createCanvas(wd, ht).parent(canvasHelper.canvas);  
+  createCanvas(wd, ht).parent(sketch.get());  
   frameRate(10);
   fill(0)
   stroke(0)
-  createButton("Clear tree")
-    .mousePressed(() => {
+  button = createButton("Clear tree")
+  button.parent(sketch.get())
+  button.mousePressed(() => {
       mst.clear();
     })
 }

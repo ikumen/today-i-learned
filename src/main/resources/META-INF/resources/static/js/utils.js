@@ -83,16 +83,6 @@ function sketchHelper(id) {
   }
 }
 
-function getCanvasHelper(id) {
-  const cEl = document.getElementById(id);
-  const cStyle = getComputedStyle(cEl);
-  return {
-    canvas: cEl,
-    availHeight: window.innerHeight - cEl.getBoundingClientRect().y,
-    availWidth: cEl.clientWidth - parseFloat(cStyle.paddingLeft) - parseFloat(cStyle.paddingLeft)
-  }
-}
-
 class Heap {
   constructor() {
     this.vals = [];

@@ -1,4 +1,4 @@
-*Hi, I'm Thong Nguyen. A [developer](https://github.com/ikumen), [father](/static/images/these_guys.jpg) and [DIY enthusiast](/til/diy/) from Los Angeles.*
+*Hi, I'm Thong Nguyen. A [developer](https://github.com/ikumen), [father](/static/images/kids.jpg) and [DIY enthusiast](/til/diy/) from Los Angeles.*
 
 ### Today I learned
 
@@ -6,6 +6,7 @@
 <!-- @@content@@ -->
 <!-- Generated content end -->
 
+<!--
 * erasure coding
 * traversal
 * ascii
@@ -23,13 +24,10 @@
 * traversals
 * sorting
 
-<form action="http://localhost:3000">
-  hello <input type="hello">
-</form>
 
-### Data Structures
 
 * [Heap](/src/main/java/com/gnoht/til/datastructures#heap)
 * [Linked List](/src/main/java/com/gnoht/til/datastructures)
 * [Queue](/src/main/java/com/gnoht/til/datastructures)
 * [Stack](/src/main/java/com/gnoht/til/datastructures#stack)
+-->

@@ -102,13 +102,13 @@ class GameOfLife {
 }
 
 let game, generationLabel, populationLabel;
-const canvasHelper = getCanvasHelper('canvas');
-const ht = Math.floor((canvasHelper.availHeight - 100) / 10) * 10
-const wd = Math.round(canvasHelper.availWidth / 10) * 10;
+const sketch = sketchHelper('sketch');
+const ht = Math.floor((sketch.height - 120) / 10) * 10;
+const wd = Math.round(sketch.width / 10) * 10;
 
 function setup() {
   let fr = 5;
-  createCanvas(wd, ht).parent(canvasHelper.canvas)  
+  createCanvas(wd, ht).parent(sketch.get())  
   textSize(5);
   frameRate(fr)
   stroke(255)
@@ -124,20 +124,20 @@ function setup() {
 
   game = new GameOfLife(wd, ht);
   speedLabel = createSpan("Speed: " + fr + " &nbsp;");
-  speedLabel.parent(canvasHelper.canvas);
+  speedLabel.parent(sketch.get());
 
   slowBtn = createButton("slower")
-  slowBtn.parent(canvasHelper.canvas);
+  slowBtn.parent(sketch.get());
   slowBtn.mousePressed(() => adjustFrameRate(-1));
-  createSpan(" ").parent(canvasHelper.canvas);
+  createSpan(" ").parent(sketch.get());
   fastBtn = createButton("faster");
-  fastBtn.parent(canvasHelper.canvas);
+  fastBtn.parent(sketch.get());
   fastBtn.mousePressed(() => adjustFrameRate(1));
   
   generationLabel = createSpan(" &nbsp; Generation: ")
-  generationLabel.parent(canvasHelper.canvas);
+  generationLabel.parent(sketch.get());
   populationLabel = createSpan(" &nbsp; Population: ")
-  populationLabel.parent(canvasHelper.canvas);
+  populationLabel.parent(sketch.get());
 }
 
 function draw() {

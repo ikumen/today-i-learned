@@ -6,14 +6,14 @@ description: Huffman coding is an algorithm for lossless compression of data, th
 
 ## Huffman Coding
 
-Huffman coding is an algorithm for lossless compression of data. 
+Huffman coding is an algorithm for generating a prefix code that is commonly used for lossless data compression. Below is an example of a Huffman coding that generates binary prefix codes.
 
 <div class="w-100">
   <textarea id="data" class="w-100 mb2" maxlength="10000" rows="5" placeholder="Paste in some text to encode"></textarea><br/>
   <button id="encode-btn">encode</button> <button id="clear-btn">clear</button>
 </div>
-<div class="tr fw5">Results</div>
-<div class="w-100 mt2 pa2 f7 bg-washed-yellow">
+<div class="tr mt2 fw5">Results</div>
+<div class="w-100 mt0 pa2 f7 bg-washed-yellow">
   <div id="encoding">Encoding: <p></p></div>
   <div id="encoding-table">Code Table: <p></p></div>
   <div id="stats">

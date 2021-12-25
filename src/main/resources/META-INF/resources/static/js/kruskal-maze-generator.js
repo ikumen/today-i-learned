@@ -38,8 +38,8 @@ class Edge {
 const sketch = sketchHelper('sketch');
 const cellSize = 20;
 const borderWidth = 2;
+const mazeHt = 300;
 const mazeWd = Math.floor(Math.max(300, sketch.width) / cellSize) * cellSize;
-const mazeHt = Math.floor(Math.max(300, sketch.height - 170) / cellSize) * cellSize;
 const mazeRows = Math.floor(mazeHt / cellSize);
 const mazeCols = Math.floor(mazeWd / cellSize);
 const cellMid = Math.floor(cellSize / 2);
@@ -56,7 +56,7 @@ function setup() {
   strokeWeight(borderWidth);  // width of lines  
   stroke(80);
 
-  let fr = 5;
+  let fr = 15;
   frameRate(fr);
 
   function adjustFrameRate(inc) {

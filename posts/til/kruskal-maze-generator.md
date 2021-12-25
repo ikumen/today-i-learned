@@ -16,22 +16,22 @@ A quick look at how [Kruskal's algorithm](https://en.wikipedia.org/wiki/Kruskal%
 
 ### How it works
 
-Kruskal's algorithm is an algorithm for finding a minimum spanning tree, it takes a set of vertices for input and finds the subset of edges that forms a tree that:
+Kruskal's algorithm is an algorithm for finding a [minimum spanning tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree), it takes a set of vertices for input and finds the subset of edges that forms a tree that:
 
   * includes every vertex
   * and has a minimum sum of weights among all the edges
 
 [Kruskal's algorithm](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm) is very similar to [Prim's algorithm](/minimum-spanning-tree/), but with the following key steps:
 
- 1. turn all vertices to individual [disjoint set](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)
- 2. build list of all `traversable` edges (sorted asc list or min heap)
- 3. from `traversable` edges, get minimum edge and traverse
+ 1. turn all vertices to individual [disjoint sets](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)
+ 2. build list of all `traversable` edges (sorted or as priority queue)
+ 3. from list of `traversable` edges, get minimum edge and traverse
  4. if vertices of the traversed edge are not in same disjoint sets, connect them (i.e, we just expanded our tree). _Note: without this check we risk forming a cycle in the graph._
  5. repeat from step 3
 
 ### Kruskals algorithm
 
-Let demonstrate Kruskal's algorithm by using it to generate a maze. We'll use JavaScript, specifically [p5js](https://p5js.org) to help visualize what we are doing. I'll keep the user interface as simple as possible.
+Let's demonstrate Kruskal's algorithm by using it to generate a perfect maze&mdash;a maze where all points are reachable. We'll use JavaScript, specifically [p5js](https://p5js.org) to help visualize what we are doing. I'll keep the user interface as simple as possible.
 
 We setup our initial canvas and a basic grid to outline the cells that will make up our maze.
 ```javascript
@@ -54,8 +54,6 @@ function setup() {
   }
 }
 ```
-
-Should produce the following.
 
 ![initial grid](/static/images/kruskal-maze-generator/initial-grid.png)
 
@@ -81,7 +79,7 @@ function setup() {
 
 ![cells to vertices](/static/images/kruskal-maze-generator/cells-vertex.png)
 
-At this point we can start to implement Kruskal's algorithm. The first step is to convert all the vertices to individual [disjoint sets](https://en.wikipedia.org/wiki/Disjoint-set_data_structure). We'll do that by creating a custom class to hold a cell's coordinates while support disjoint set operations. We might as well create a class to represent our edges too.
+The first step of Kruskal's algorithm is to convert all the vertices to individual [disjoint sets](https://en.wikipedia.org/wiki/Disjoint-set_data_structure). We'll do that by creating a custom `VertexDisjointSet` class to hold a vertex's (e.g, cell) coordinates while supporting disjoint set operations. Additionally we will add an `Edge` class to represent the relation between two vertex.
 
 ```javascript
 // define outside of setup function
@@ -124,7 +122,7 @@ class Edge {
 }
 ```
 
-Finally convert and store the new disjoint set into a collection of vertices. We can build all of the edges too while we're initializing our vertices.
+Next we convert the vertices to the disjoint sets, and store them in the collection `vertices`. It's also a good time to build all the edges as we're initializing our vertices.
 
 ```javascript
 function setup() {
@@ -157,7 +155,7 @@ To keep edge generation simple, we use the following formula, for every vertex:
  * we create an edge to the vertex to the left (e.g, col-1)
  * except for the vertices in the top row, and first column
 
-Next let's visualize what those edges look like.
+Let's visualize what we have so far, vertices and their edges.
 
 ```javascript
 function setup() {
@@ -180,9 +178,9 @@ function setup() {
 
 ![visualize edges](/static/images/kruskal-maze-generator/visualize-edges.png)
 
-Take away the grid and cells and basically we have a graph with vertices and edges. Finally, we're ready to start building out our spanning tree.
+We started with a simple grid, now we have a graph with vertices and edges. Finally, we're ready to start building out the minimum spanning tree that will form our maze path.
 
-The next part of the algorithm calls for traversing the minimal edge. At this point though our edges are not weighted and the distance between each vertex is the same, so we need to introduce an artifical weight and to randomize it.
+The next part of the algorithm calls for traversing the minimal edges. At this point though our edges are not weighted and the distance between each vertex is the same, so we will introduce a random artifical weight to each edge&mdash;this will give the tree (i.e, our maze path) a more naturally non-uniform shape.
 
 ```javascript
 // update the Edge class
@@ -209,7 +207,7 @@ function setup() {
 }
 ```
 
-Now we can traverse each edge, and if it's vertices are not connected, connect them. Again to visualize it, we'll add a purple line for each connection.
+Now for each edge we traverse, if it's vertices are not connected, we connect them, slowly expaning our spanning tree. 
 
 ```javascript
 function setup() {
@@ -217,21 +215,38 @@ function setup() {
 
   edges.sort(.....)
 
-  stroke('purple');
   while (edges.length > 0) {
     const edge = edges.pop();
     const {v1, v2} = edge;
     if (v1.find(v1) === v2.find(v2))
       continue;
     v1.union(v2);
-    line(v1.x, v1.y, v2.x, v2.y);
+  }
+}
+```
+Again to visualize, let's add a purple line for each connection.
+
+```javascript
+function setup() {
+  ...
+
+  edges.sort(.....)
+
+  stroke('purple');  // <-- draw connection as purple
+  while (edges.length > 0) {
+    const edge = edges.pop();
+    const {v1, v2} = edge;
+    if (v1.find(v1) === v2.find(v2))
+      continue;
+    v1.union(v2);
+    line(v1.x, v1.y, v2.x, v2.y); // <-- draw connection
   }
 }
 ```
 
 ![traversing edges](/static/images/kruskal-maze-generator/traversing-edges.png)
 
-The purple lines represent the minimum spanning tree (i.e, our maze path), the white lines represent the walls. Let's turn off the original edge lines, drawing only the connected edges for a better look at the spanning tree.
+The purple lines represent the minimum spanning tree (i.e, our maze path), the white lines with no purple lines crossing represent the walls. Let's turn off the original edge lines that are not connect (light blue lines), drawing only the connected edges (purple lines) for a better look at the spanning tree.
 
 ```javascript
 function setup() {
@@ -254,7 +269,9 @@ function setup() {
 
 ![connected edges only](/static/images/kruskal-maze-generator/connected-edges-only.png)
 
-That's pretty much Kruskal's algorithm. To finish off the maze generation and place the walls we simply remove all the edge drawing code and clear out the grid lines where ever there are connected vertices.
+The purple lines represent the minimum spanning tree (e.g, our maze path). If you look closely, you can see the tree spans to every vertex, thus every point on the corresponding maze path is access&mdash;a perfect maze.
+
+We've just implemented Kruskal's algorithm, cool right? To finish off the maze generation, we simply remove all the vertex and edge lines and clear out the grid lines where ever there are connected vertices.
 
 ```javascript
 function setup() {
@@ -283,7 +300,7 @@ function setup() {
 }
 ```
 
-With a little tweaking of the offsets for x and y, we finally get our maze.
+With a little tweaking of the offsets for x and y, we end up with a maze.
 
 ![maze with walls](/static/images/kruskal-maze-generator/maze-with-walls.png)
 
@@ -299,7 +316,7 @@ function setup() {
 
 ![maze scaled out](/static/images/kruskal-maze-generator/maze-scaled-out.png)
 
-Now you know how to generate mazes with Kruskal's algorithm! Checkout p5js online editor to [continue playing with the code](https://editor.p5js.org/ikumen/sketches/l6UZW9uCy) we just walked through. 
+Now you know how to generate mazes with Kruskal's algorithm! Check out the p5js online editor to [continue playing with the code](https://editor.p5js.org/ikumen/sketches/l6UZW9uCy) we just walked through. 
 
 
 Source for [this post](https://github.com/ikumen/today-i-learned/blob/main/posts/til/kruskal-maze-generator.md) and [demo above](https://github.com/ikumen/today-i-learned/blob/main/src/main/resources/META-INF/resources/static/js/kruskal-maze-generator.js) can be found [on GitHub](https://github.com/ikumen/today-i-learned).

@@ -84,7 +84,7 @@ class SiteGenerator:
     mtime = os.stat(self.index_md_path).st_mtime
     if not force and self.index_mtime == mtime:
       return
-    print(f" * {str(self.index_md_path)} => ...{str(self.index_html_path)[-10:]}")
+    print(f" * {time.time()} {str(self.index_md_path)} => ...{str(self.index_html_path)[-10:]}")
     self.index_mtime = mtime  
     listing_str = ""
     for _, post in self.posts.items():
@@ -99,7 +99,7 @@ class SiteGenerator:
       md_text = reader.read()
       prefix, suffix = md_text.split("<!-- @@content@@ -->")
       with open(self.index_html_path, "w") as writer:
-        html = self.renderer(prefix + "<ul>" + listing_str + "</ul>" + suffix)
+        html = self.renderer(prefix + '<ul class="list pa0 ma0">' + listing_str + "</ul>" + suffix)
         writer.write(self.layout.prefix + html + self.layout.suffix)
 
   def renderer_post(self, post: Post):
@@ -127,7 +127,7 @@ class SiteGenerator:
       
       updated_posts[md_path] = post
       if post.has_modifications() or force:
-        print(f" * {str(post.md_path)} => ...{str(post.html_path)[-30:]}")
+        print(f" * {time.time()} {str(post.md_path)} => ...{str(post.html_path)[-30:]}")
         self.renderer_post(post)
         modified = True
     # Update our list of posts (removing/adding)    

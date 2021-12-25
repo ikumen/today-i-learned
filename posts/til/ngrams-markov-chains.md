@@ -275,6 +275,6 @@ i am that sam sam sam i am i am
 
 Try it with uni-gram, what kind of results did you get vs say a tri-gram? Anyways, that was a brief introduction to Markov chains and n-grams.
 
-[Demo and post source code](https://github.com/ikumen/today-i-learned/tree/main/src/main/java/com/gnoht/til/markov_chain/) on [GitHub](https://github.com/ikumen).
+[Demo and post source code](https://github.com/ikumen/today-i-learned/tree/main/src/main/java/com/gnoht/til/markov_chain/) on [GitHub](https://github.com/ikumen/today-i-learned).
 
 

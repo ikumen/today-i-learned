@@ -113,7 +113,7 @@ public abstract class Heap<T extends Comparable<?>> {
 
     T item = items.get(0);
     T last = items.remove(items.size()-1);
-    if (items.size() >= 1) {
+    if (!items.isEmpty()) {
       items.set(0, last);
       shiftDown(0);
     }

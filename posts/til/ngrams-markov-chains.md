@@ -3,7 +3,8 @@ title: Text generation with Markov chains
 tags: n-grams, markov-chains, algorithms
 description: A gentle introduction to Markov chains and how to use them to generate text
 ---
-## N-grams and Markov Chains
+
+## Text generation with Markov chains 
 
 A gentle introduction to [Markov Chains](https://en.wikipedia.org/wiki/Markov_chain) and how to use them for generating text.
 

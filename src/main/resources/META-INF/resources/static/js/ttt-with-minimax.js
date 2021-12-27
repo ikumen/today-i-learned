@@ -1,10 +1,47 @@
 class TTTGame {
   constructor() {
+    this.turn = 0; // X-even, O-odd
     this.cells = this.newCells();
+  }
+
+  takeTurn() {
+
   }
 
   newCells() {
     return [0,0,0, 0,0,0, 0,0,0];
+  }
+}
+
+class GameState {
+  EMPTY = -1;
+  constructor(cells, player) {
+    this.cells = cells;
+    this.player = player;
+  }
+
+  /**
+   * Return true if in winning state.
+   * 012 345 678 048 642 036 147 258
+   */
+  isWon() {
+    return this.isWonState(0, 1, 2) || this.isWonState(3, 4, 5) || this.isWonState(6, 7, 8)
+      || this.isWonState(0, 4, 8) || this.isWonState(6, 4, 2) || this.isWonState(0, 3, 6)
+      || this.isWonState(1, 4, 7) || this.isWonState(2, 5, 8);
+  }
+
+  isWonState(i, j, k) {
+    return this.EMPTY != this.cells[i] 
+      && this.cells[i] == this.cells[j] 
+      && this.cells[i] == this.cells[k];
+  }
+
+  isTie() {
+
+  }
+
+  isGameOver() {
+
   }
 }
 
@@ -43,7 +80,9 @@ class Board {
     textSize(this.fntSize);
     text(s, this.cellCoords[i].x + this.cellXOffset, 
       this.cellCoords[i].y + this.cellYOffset);
-    fill(255); textSize(tmp);
+    // reset fill and textsize
+    fill(255); 
+    textSize(tmp);
     return this;
   }
 
@@ -58,6 +97,7 @@ class Board {
     }
   }
 }
+
 
 let board, div;
 function setup() {

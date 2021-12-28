@@ -31,15 +31,24 @@ def extract_frontmatter(md_text):
 
 
 class Layout:
-  def __init__(self, path):
-    self.path = path
+  def __init__(self, path, includes):
+    self.path: Path = path
     self.prefix = None
     self.suffix = None
+    self.includes = includes
     self.reload()
 
   def reload(self):
+    html_fragments = {}
+    for include in self.includes:
+      with open(self.path.parent.joinpath(f"includes/{include}.html")) as reader:
+        html_fragments[include] = reader.read()
+
     with open(self.path) as reader:
-      self.prefix, self.suffix = reader.read().split("@@content@@")
+      html = reader.read()
+      for id, frag in html_fragments.items():
+        html = html.replace(f'@@{id}@@', frag)
+      self.prefix, self.suffix = html.split("@@content@@")
 
 
 class Post:
@@ -68,13 +77,13 @@ class Post:
 
 
 class SiteGenerator:
-  def __init__(self, input_dir, output_dir, layout_file, renderer: mistune.Markdown):
+  def __init__(self, input_dir, output_dir, layout_config, renderer: mistune.Markdown):
     self.input_path = Path(input_dir)
     self.output_path = Path(output_dir)
     self.index_html_path = self.output_path.joinpath(self.index_html)
     self.index_md_path = self.input_path.joinpath(self.index_md)
-    self.layout_path = Path(layout_file)
-    self.layout = Layout(self.layout_path)
+    self.layout_path = layout_config['path']
+    self.layout = Layout(**layout_config)
     self.posts = {}
     self.renderer = renderer
     self.layout_mtime = None
@@ -172,14 +181,29 @@ class SiteGenerator:
     </li>"""
 
 
+def parse_argv():
+  opts = {}
+  for argv in sys.argv:
+    parts = argv.split("=")
+    opts[parts[0]] = parts[1] if len(parts) > 1 else None
+  return opts
+
+
 if __name__ == "__main__":
+  opts = parse_argv()
+  layout_includes = []
+  if '-i' in opts:
+    layout_includes = opts['-i'].split(",")
+
   site_generator = SiteGenerator(
       input_dir="posts",
       output_dir="src/main/resources/META-INF/resources",
-      layout_file="deploy/static-site/layout.html",
+      layout_config=dict(
+        path=Path("deploy/static-site/layout.html"),
+        includes=layout_includes),
       renderer=create_renderer())
 
-  if len(sys.argv) > 1 and sys.argv[1] == "-w":
+  if '-w' in opts:
     site_generator.watch_and_generate()
   else:
     site_generator.generate_all()

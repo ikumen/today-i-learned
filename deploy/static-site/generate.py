@@ -14,7 +14,7 @@ from parser import create_renderer
 
 
 def extract_frontmatter(md_text):
-  matches = re.findall(r'^\s*---\s*(.*)\s*---\n(.*)', md_text, re.DOTALL)
+  matches = re.findall(r'^\s*---\s*(.*)\s*\n---\n(.*)', md_text, re.DOTALL)
   if matches and len(matches[0]) == 2:
     # very fragile
     meta = matches[0][0].strip().split("\n")
@@ -47,7 +47,8 @@ class Layout:
     with open(self.path) as reader:
       html = reader.read()
       for id, frag in html_fragments.items():
-        html = html.replace(f'@@{id}@@', frag)
+        # try to find <!-- @@analytics@@ -->
+        html = html.replace(f'<!-- @@{id}@@ -->', frag)
       self.prefix, self.suffix = html.split("@@content@@")
 
 
@@ -99,7 +100,7 @@ class SiteGenerator:
     for _, post in self.posts.items():
       if post.fm is not None:
         listing_str += self.listing_template.format(
-            link=post.link, 
+            link=post.fm.get('link', post.link),
             title=post.fm.get('title', ''), 
             description=post.fm.get('description', ''))
 

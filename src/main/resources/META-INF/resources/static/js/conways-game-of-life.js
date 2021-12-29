@@ -55,7 +55,7 @@ class GameOfLife {
   /**
    * Creates an initial generation.
    */
-  initGeneration(sparseness=0.3) {
+  initGeneration(sparseness=0.4) {
     const cells = createMatrix(this.rows, this.cols);
     let population = 0;
     for (const row of cells) {
@@ -107,7 +107,7 @@ const ht = Math.floor((sketch.height - 120) / 10) * 10;
 const wd = Math.round(sketch.width / 10) * 10;
 
 function setup() {
-  let fr = 5;
+  let fr = 10;
   createCanvas(wd, ht).parent(sketch.get())  
   textSize(5);
   frameRate(fr)
@@ -123,6 +123,7 @@ function setup() {
   }
 
   game = new GameOfLife(wd, ht);
+  
   speedLabel = createSpan("Speed: " + fr + " &nbsp;");
   speedLabel.parent(sketch.get());
 
@@ -130,6 +131,7 @@ function setup() {
   slowBtn.parent(sketch.get());
   slowBtn.mousePressed(() => adjustFrameRate(-1));
   createSpan(" ").parent(sketch.get());
+  
   fastBtn = createButton("faster");
   fastBtn.parent(sketch.get());
   fastBtn.mousePressed(() => adjustFrameRate(1));

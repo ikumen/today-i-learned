@@ -2,6 +2,7 @@
 
 ### Today I learned
 
+
 <!-- Generated content -->
 <!-- @@content@@ -->
 <!-- Generated content end -->
@@ -25,9 +26,9 @@
 * sorting
 
 
-
 * [Heap](/src/main/java/com/gnoht/til/datastructures#heap)
 * [Linked List](/src/main/java/com/gnoht/til/datastructures)
 * [Queue](/src/main/java/com/gnoht/til/datastructures)
 * [Stack](/src/main/java/com/gnoht/til/datastructures#stack)
 -->
+

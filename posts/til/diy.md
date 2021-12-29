@@ -16,9 +16,8 @@ My daughter building her first computer&mdash;an Ethereum mining rig&mdash;with 
 </section>
 
 ### Wall Shelving
-sdf
 
-We needed more storage so I started building up.
+Custom wall shelving with [Elfa brackets](https://www.containerstore.com/s/elfa/components/platinum-elfa-ventilated-and-decor-wire-shelf-brackets/12d?productId=10006043).
 
 <section class="cf flex flex-wrap">
   <img src="/static/images/wall-shelf.jpg" class="w-40 pb2 mr2">
@@ -70,7 +69,6 @@ My first time working with [europly](https://www.columbiaforestproducts.com/prod
 
 ### Remodel - Tile Floor Install
 
-sdf
 Installed new floor tiles in our small bedroom's bathroom. I really enjoyed using [Schluter Ditra](https://www.schluter.com/schluter-us/en_US/Membranes/Uncoupling-DITRA/Schluter%C2%AE-DITRA-&-DITRA-XL/p/DITRA) as the subfloor membrane&mdash;super easy install and provides water proofing and decoupling.
 
 <section class="cf flex flex-wrap">

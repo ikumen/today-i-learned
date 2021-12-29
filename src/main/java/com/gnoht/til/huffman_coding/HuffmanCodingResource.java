@@ -1,13 +1,13 @@
 package com.gnoht.til.huffman_coding;
 
 import com.gnoht.til.datastructures.Heap;
+import com.gnoht.til.datastructures.Queue;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.IntStream;
+import java.util.Map.Entry;
 
 @Path("/api/huffman")
 public class HuffmanCodingResource {
@@ -23,17 +23,59 @@ public class HuffmanCodingResource {
     return new EncodingResult(encoding.toString(), encodingTable);
   }
 
+  public static void main(String[] args) {
+    String s = "taaaaaaggcccc";
+    HuffmanCodingResource huff = new HuffmanCodingResource();
+    Map<Character, Integer> charCounts = huff.getCharCounts(s);
+    HuffmanTreeNode huffmanTree = huff.buildHuffmanTree(charCounts);
+    Queue<HuffmanTreeNode> queue = new Queue<>();
+    queue.enqueue(huffmanTree);
+    while (queue.size() > 0) {
+      System.out.println("------");
+      int lvlSize = queue.size();
+      while (lvlSize-- > 0) {
+        HuffmanTreeNode node = queue.dequeue();
+        System.out.print(node.ch + "  ");
+        if (node.left != null)
+          queue.enqueue(node.left);
+        if (node.right != null)
+          queue.enqueue(node.right);  
+      }
+      System.out.println();
+    }   
+    Map<Character, String> table = huff.buildEncodingTable(huffmanTree);         
+    System.out.println("-------");
+    for (Entry<Character, String> e : table.entrySet())
+      System.out.println(e.getKey() + "==" + e.getValue());
+
+    Map<Character, String> encodingTable = huff.buildEncodingTable(s);
+    StringBuilder encoding = new StringBuilder();
+    for (char c : s.toCharArray()) {
+      encoding.append(encodingTable.get(c));
+    }
+
+    System.out.println(encoding.toString());
+
+  }
+
   Map<Character, String> buildEncodingTable(String s) {
     Map<Character, Integer> charCounts = getCharCounts(s);
-    Node huffmanTree = buildHuffmanTree(charCounts);
+    HuffmanTreeNode huffmanTree = buildHuffmanTree(charCounts);
     return buildEncodingTable(huffmanTree);
   }
 
-  Map<Character, String> buildEncodingTable(Node huffmanTree) {
+  Map<Character, String> buildEncodingTable(HuffmanTreeNode huffmanTree) {
     return buildEncodingTable(huffmanTree, new HashMap<>(), "");
   }
 
-  Map<Character, String> buildEncodingTable(Node huffmanTreeNode, Map<Character, String> codes, String code) {
+  /**
+   * Return map of characters to prefix codes.
+   * @param huffmanTreeNode
+   * @param codes
+   * @param code
+   * @return
+   */
+  Map<Character, String> buildEncodingTable(HuffmanTreeNode huffmanTreeNode, Map<Character, String> codes, String code) {
     if (huffmanTreeNode.isLeaf()) {
       codes.put(huffmanTreeNode.ch, code);
     } else {
@@ -45,15 +87,20 @@ public class HuffmanCodingResource {
     return codes;
   }
 
-  Node buildHuffmanTree(Map<Character, Integer> charCounts) {
-    Heap<Node> heap = Heap.minHeap();
-    charCounts.forEach((ch, priority) -> heap.push(new Node(ch, priority)));
+  /**
+   * Return a prefix tree of our characters.
+   * @param charCounts
+   * @return
+   */
+  HuffmanTreeNode buildHuffmanTree(Map<Character, Integer> charCounts) {
+    Heap<HuffmanTreeNode> heap = Heap.minHeap();
+    charCounts.forEach((ch, priority) -> heap.push(new HuffmanTreeNode(ch, priority)));
 
-    Node tree = null;
+    HuffmanTreeNode tree = null;
     while (!heap.isEmpty()) {
-      Node left = heap.pop();
-      Node right = heap.pop();
-      tree = new Node(left.priority + right.priority, left, right);
+      HuffmanTreeNode left = heap.pop();
+      HuffmanTreeNode right = heap.pop();
+      tree = new HuffmanTreeNode(left.priority + right.priority, left, right);
       if (heap.isEmpty()) break;
       heap.push(tree);
     }
@@ -61,6 +108,11 @@ public class HuffmanCodingResource {
     return tree;
   }
 
+  /**
+   * Return a map of characters to frequency counts.
+   * @param s text corpus to analyze
+   * @return
+   */
   Map<Character, Integer> getCharCounts(String s) {
     Map<Character, Integer> charCounts = new HashMap<>();
     for (char c : s.toCharArray()) {
@@ -69,18 +121,18 @@ public class HuffmanCodingResource {
     return charCounts;
   }
 
-  static class Node implements Comparable<Node> {
+  static class HuffmanTreeNode implements Comparable<HuffmanTreeNode> {
     final int priority;
     char ch;
-    Node left;
-    Node right;
+    HuffmanTreeNode left;
+    HuffmanTreeNode right;
 
-    Node(char ch, int priority) {
+    HuffmanTreeNode(char ch, int priority) {
       this.ch = ch;
       this.priority = priority;
     }
 
-    Node(int priority, Node left, Node right) {
+    HuffmanTreeNode(int priority, HuffmanTreeNode left, HuffmanTreeNode right) {
       this.priority = priority;
       this.left = left;
       this.right = right;
@@ -91,7 +143,7 @@ public class HuffmanCodingResource {
     }
 
     @Override
-    public int compareTo(Node o) {
+    public int compareTo(HuffmanTreeNode o) {
       return Integer.compare(priority, o.priority);
     }
   }

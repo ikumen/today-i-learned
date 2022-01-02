@@ -9,6 +9,7 @@ import re
 import traceback
 import time
 
+from datetime import datetime
 from pathlib import Path
 from parser import create_renderer
 
@@ -97,7 +98,11 @@ class SiteGenerator:
     print(f" * {time.time()} {str(self.index_md_path)} => ...{str(self.index_html_path)[-10:]}")
     self.index_mtime = mtime  
     listing_str = ""
-    for _, post in self.posts.items():
+
+    now_datestr = datetime.today().strftime('%Y-%m-%d')
+    for post in sorted(self.posts.values(), reverse=True, key=lambda p: (p.fm or  dict(date='')).get('date', now_datestr)):
+    #for _, post in self.posts.items():
+    # for post in self.posts.values():
       if post.fm is not None:
         listing_str += self.listing_template.format(
             link=post.fm.get('link', post.link),

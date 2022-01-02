@@ -1,10 +1,10 @@
 ---
-title: Minimum spanning tree using Prim's algorithm
+title: Minimum Spanning Tree using Prim's Algorithm
 tags: prims, algorithms, mst, p5js
 description: An example of a minimum spanning tree using Prim's algorithm
 ---
 
-## Minimum spanning tree using Prim's algorithm
+## Minimum Spanning Tree using Prim's Algorithm
 
 An example of a [minimum spanning tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree) using [Prim's algorithm](https://en.wikipedia.org/wiki/Prim%27s_algorithm). Just click on the yellow canvas to generate vertices and the algorithm will generate the edges of the spanning tree, optimizing for minimum edge distances.
 

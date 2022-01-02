@@ -1,10 +1,10 @@
 ---
-title: Maze generation with Kruskal's algorithm
+title: Maze Generation with Kruskal's Algorithm
 tags: algorithms, prims, fun
 description: A quick look at how Kruskal's algorithm can be used to generate a perfect maze
 ---
 
-# Maze generation with Kruskal's algorithm
+# Maze Generation with Kruskal's Algorithm
 A quick look at how [Kruskal's algorithm](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm) can be used to generate a perfect maze.
 
 <div class="center">

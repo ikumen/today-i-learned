@@ -1,5 +1,5 @@
 ---
-title: Conway's Game of Life
+title: Conway's Game of Life 
 tags: p5js, game
 description: An implementation of Conway's Game of Life
 ---

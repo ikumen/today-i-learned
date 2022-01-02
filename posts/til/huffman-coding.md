@@ -1,5 +1,5 @@
 ---
-title: Huffman Coding
+title: Huffman Coding 
 tags: algorithms, prefix-code, lossless
 description: Huffman coding is an algorithm for lossless compression of data, this post is a brief introduction to the algorithm with a nice demo
 ---
@@ -183,7 +183,7 @@ Since we there are no more symbols in the list, we've completed the prefix tree,
      (t,1)       (g,2)
 ```
 
-The code for each symbol is the build up of "0"s and "1"s along the path to the a symbol's node. For our 4 symbols and the frequencies they have in our sample data, this is the resulting encoding scheme.
+The code for each symbol is the build up of "0"s and "1"s along the path to a symbol's node. For our 4 symbols and the frequencies they have in our sample data, this is the resulting encoding scheme.
 
 ```bash
 # Huffman generated encoding scheme

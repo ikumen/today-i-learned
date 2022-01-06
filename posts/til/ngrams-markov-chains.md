@@ -4,7 +4,7 @@ tags: n-grams, markov-chains, algorithms
 description: A gentle introduction to Markov chains and how to use them to generate text
 ---
 
-## Text Generation with Markov Chains 
+# Text Generation with Markov Chains 
 
 A gentle introduction to [Markov Chains](https://en.wikipedia.org/wiki/Markov_chain) and how to use them for generating text.
 
@@ -40,7 +40,7 @@ Congratulations! Today is your day. You're off to Great Places! You're off and a
 <script defer src="/static/js/ngrams-markov-chains.js"></script>
 
 
-### How it works
+## How it works
 
 An n-gram is simply a contiguous sequence of n units of text (e.g, characters or words) for a given text. Take for example this excerpt from [Green Eggs and Ham](https://en.wikipedia.org/wiki/Green_Eggs_and_Ham).
 

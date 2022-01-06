@@ -3,7 +3,8 @@ title: Conway's Game of Life
 tags: p5js, game
 description: An implementation of Conway's Game of Life
 ---
-## Conway's Game of Life
+
+# Conway's Game of Life
 
 An implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) using the [p5js](//p5js.org).
 
@@ -14,7 +15,7 @@ An implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conwa
 <script src="/static/js/p5.js"></script>
 <script defer src="/static/js/conways-game-of-life.js"></script>
 
-### How it works
+## How it works
 
 Basic implementation with support for [periodic boundary conditions](https://en.wikipedia.org/wiki/Periodic_boundary_conditions). 
 

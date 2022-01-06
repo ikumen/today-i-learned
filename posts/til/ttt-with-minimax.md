@@ -13,7 +13,7 @@ An introduction to the minimax algorithm with tic-tac-toe.
 </div>
 -->
 <script src="/static/js/p5.js"></script>
-<script defer src="/static/js/test-runner.js"></script> 
+<script defer src="/static/js/tiny-test.js"></script> 
 <script defer src="/static/js/ttt.js"></script> 
 <!-- <script defer src="/static/js/ttt-with-minimax.js"></script>  -->
 
@@ -134,7 +134,7 @@ _ x _   |   x x _     |   x x _
 
 To demonstrate the minimax algorithm, we'll take a look at snippets of code from the tic-tac-toe game above. The game utilizes minimax when you play the hard computer player. 
 
-Minimax requires a simulation of all possible game states to determine the next best move, so we need to design a class to encapsulate the game state on any given turn. Each state should include the following:
+Minimax requires a simulation of all possible game states to determine the next best move, so we need to design a class to encapsulate the game state on any given turn. Each state should be an immutable object with the following properties:
 
 * all positions within the game (e.g, the 3x3 cells)
 * player that will play the next turn
@@ -246,9 +246,15 @@ class GameState {
 }
 ```
 
-Great, let's test the `GameState` class to make sure it works. I recently implemented a tiny browser-based JavaScript test runner would be good for this situation.
+Great, let's test the `GameState` class to make sure it works. 
 
 ```javascript
+const computer = {id: 'X', name: 'Computer'};
+const human = {id: 'O', name: 'Human'};
+
+const state = GameState.create(computer, human);
+
+// make sure new state is empty
 
 ```
 

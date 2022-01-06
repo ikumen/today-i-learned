@@ -14,7 +14,7 @@ A quick look at how [Kruskal's algorithm](https://en.wikipedia.org/wiki/Kruskal%
 <script src="/static/js/p5.js"></script>
 <script defer src="/static/js/kruskal-maze-generator.js"></script>
 
-### How it works
+## How it works
 
 Kruskal's algorithm is an algorithm for finding a [minimum spanning tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree), it takes a set of vertices for input and finds the subset of edges that forms a tree that:
 
@@ -29,7 +29,7 @@ Kruskal's algorithm is an algorithm for finding a [minimum spanning tree](https:
  4. if vertices of the traversed edge are not in same disjoint sets, connect them (i.e, we just expanded our tree). _Note: without this check we risk forming a cycle in the graph._
  5. repeat from step 3
 
-### Kruskals algorithm
+## Kruskals algorithm
 
 Let's demonstrate Kruskal's algorithm by using it to generate a perfect maze&mdash;a maze where all points are reachable. We'll use JavaScript, specifically [p5js](https://p5js.org) to help visualize what we are doing. I'll keep the user interface as simple as possible.
 

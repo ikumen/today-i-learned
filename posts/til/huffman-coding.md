@@ -4,7 +4,7 @@ tags: algorithms, prefix-code, lossless
 description: Huffman coding is an algorithm for lossless compression of data, this post is a brief introduction to the algorithm with a nice demo
 ---
 
-## Huffman Coding
+# Huffman Coding
 
 Huffman coding is an algorithm for generating a prefix code commonly used for lossless data compression. Below is an example of a Huffman coding that can generate binary prefix codes.
 
@@ -23,7 +23,7 @@ Huffman coding is an algorithm for generating a prefix code commonly used for lo
 <script src="/static/js/huffman-coding.js"></script>
 
 
-### How it works
+## How it works
 
 All data (e.g, text, audio, photos,...) is represented in computing by [bits](https://en.wikipedia.org/wiki/Bit), a bunch of ones and zeros. To make any sense of this data, we have encoding schemes that tell us what a group of bits represents. There are different encoding schemes for different purposes, but for this example we'll focus on [US-ASCII](https://en.wikipedia.org/wiki/ASCII). 
 
@@ -95,7 +95,7 @@ So just to recap, here's what we've covered so far:
 
 Huffman coding produces variable-width codes while taking into account symbol frequencies and ambiguity. Symbol frequency is pretty simple to handle, preprocess the data, count the frequencies of each symbol and make sure to assign most frequent symbols the shortest codes. How does Huffman coding address ambiguity in the resulting code? 
 
-#### Prefix Tree
+### Prefix Tree
 
 Huffman coding builds a prefix tree that accounts for symbol frequency and ensures that a code for a particular symbol is never a prefix for another symbol to handle ambiguity. Lets walk through building a prefix tree for our 4 symbols to demonstrate. We'll use the following data.
 

@@ -3,8 +3,7 @@ html, body { margin: 0; }
 table { border-collapse: collapse; padding: 0; margin: 0; font-size: .9rem;}
 td, th { border: 1px solid; padding: 4px 20px; margin: 0;}
 tr { padding: 0; border: 1px solid}
-h2 { margin-top: 1rem; }
-h4, h3 { margin-top: 2.4rem; }
+h2, h3, h4 { margin-top: 1.8rem; }
 a { text-decoration: none; color: darkblue; font-weight: 500;}
 a:hover { text-decoration: underline; }
 blockquote {

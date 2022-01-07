@@ -1,38 +1,130 @@
+/* A position that is not played yet */
+const UNPLAYED_POS = ' ';
+
+/* All sets that for a row, col or diagonal of positions */
+const WIN_SETS = [
+  [0,1,2], [3,4,5], [6,7,8], 
+  [0,4,8], [6,4,2], [0,3,6],
+  [1,4,7], [2,5,8]
+];
+
+/* The max depth to allow minimax alogrithm to run */
+const MM_MAX_SEARCH_DEPTH = 20;
+
+/**
+ * Return a number between 0 and max (exclusive).
+ * @param {number} max upper bound of random number
+ * @returns number between 0 and max (exclusive)
+ */
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-const PLAYER_X_ID = 'X';
-const PLAYER_O_ID = 'O';
+/**
+ * Immutable class representing the game's current for any given turn.
+ */
+ class GameState {
+   /**
+    * @param {array} positions array representing possible moves in the game
+    * @param {Player} player the player that generated this state (e.g, from a move)
+    * @param {Player} opponent the other player in the game
+    */
+  constructor(positions, player, opponent, i) {
+    this.positions = positions;
+    this.player = player;
+    this.opponent = opponent;
+    this.movesLeft = this.getAvailableMoves().length;
+    this.last = i;
+  }
 
+  static create(player, opponent) {
+    return new GameState(new Array(9).fill(UNPLAYED_POS), player, opponent);
+  }
+
+  /**
+   * @returns true if game is won
+   */
+  isWon() {
+    for (const ws of WIN_SETS) {
+      if (UNPLAYED_POS !== this.positions[ws[0]] 
+          && this.positions[ws[0]] === this.positions[ws[1]]
+          && this.positions[ws[0]] === this.positions[ws[2]]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  isGameOver() {
+    return this.movesLeft === 0 || this.isWon();
+  }
+
+  /**
+   * Return true if this position is unplayed.
+   * @param {number} i id of position
+   */
+  isAvailable(i) {
+    return this.positions[i] === UNPLAYED_POS;
+  }
+
+  /**
+   * @returns Array of unplayed position indexes (0-th based)
+   */
+  getAvailableMoves() {
+    return this.positions
+      .map((p, i) => p === UNPLAYED_POS ? i : -1)
+      .filter(e => e !== -1);
+  }
+
+  /**
+   * Make the move for the current player to given position. Note, assumes
+   * moves are legal, caller is responsible for check moves are possible.
+   * @param {number} i position to move to
+   * @returns GameState representing the move that was just made.
+   */
+  move(i) {
+    if (this.isGameOver())
+      throw 'No moves available!';
+
+    const positions = Array.from(this.positions);
+    positions[i] = this.player.id;
+    return new GameState(
+        positions,
+        this.opponent,
+        this.player,
+        i
+      );
+  }
+}
+
+/**
+ * Abstract class representing a player in the game.
+ */
 class Player {
+  /**
+   * @param {string} id identifier for this player
+   * @param {string} name description for this player
+   */
   constructor(id, name) {
+    if (this.constructor === Player)
+      throw 'Instantiation error, Player is an abstract class';
     this.id = id;
     this.name = name;
   }
 }
 
-class HumanPlayer extends Player {
-  constructor(id, name) {
-    super(id, name);
-  }
-}
+/**
+ * Delegates move to user input, handled by the upstream context.
+ */
+class HumanPlayer extends Player {}
 
-class ComputerPlayer extends Player {
-  constructor(id, name) {
-    super(id, name);
-  }
-  doMove() { throw 'Not implemented'; }
-}
-
-class SimpleComputerPlayer extends ComputerPlayer {
-  constructor(id, name) {
-    super(id, name);
-  }
+/**
+ * Computer player with simple AI that randomly selects a free position.
+ */
+class AIPlayer extends Player {
   /**
-   * Make a move with the current state
-   * @param {GameState} state current game state
-   * @returns newly generated GameState
+   * Make a move for to a random position.
+   * @param {GameState} state 
    */
   doMove(state) {
     const moves = state.getAvailableMoves();
@@ -40,86 +132,86 @@ class SimpleComputerPlayer extends ComputerPlayer {
   }
 }
 
-class HardComputerPlayer extends ComputerPlayer {
-  constructor(id, name) {
-    super(id, name);
-  }
-
+class HardAIPlayer extends AIPlayer {
   /**
    * 
    * @param {GameState} state 
-   * @returns 
    */
   doMove(state) {
-    console.log('inside computer doMove')
-    if (state.movesLeft >= 7) {
-      for (const i of [4, 0, 2, 6, 8]) {
-        if (state.isAvailable(i)) {
-          return state.move(i);
-        }
-      }
+    if (state.movesLeft === state.positions.length) {
+      return state.move(4);
     }
 
     const moves = state.getAvailableMoves();
     let maxVal = Number.NEGATIVE_INFINITY;
-    let maximalMove;
+    let maxMove;
     for (const move of moves) {
-      const val = this.minimax(state.move(move), false, 5);
-      if (val > maxVal) {
+      const val = this.minimax(state.move(move), false, 1);
+      if (maxVal < val) {
         maxVal = val;
-        maximalMove = move;
+        maxMove = move;
       }
     }
-    return state.move(maximalMove);
+    return state.move(maxMove);
   }
 
   /**
-   *    
-   * @param {GameState} state 
-   * @param {boolean} maximizing 
+   * 
+   * @param {GameState} state current state of game
+   * @param {boolean} maximizing indicating if we should maximize or minimize
+   * @param {number} depth how far ahead have we played, if set, we can use 
+   *    to limit the minimax algorithm.
    */
   minimax(state, maximizing, depth) {
     const isWon = state.isWon();
-    if (isWon || state.movesLeft === 0 || depth <= 0) {
-      return state.evaluate(maximizing);
+    if (isWon || state.movesLeft === 0 || depth >= MM_MAX_SEARCH_DEPTH) {
+      // previous move was the winning move and by the opponent so we should minimize this path
+      if (isWon && maximizing) return -1;
+      // otherwise previous move was winning and by us, so we should maximize this path
+      else if (isWon) return 1;
+      return 0;
     }
 
     const moves = state.getAvailableMoves();
-    let minimaxVal = maximizing ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+    let minMaxVal = maximizing ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
     if (maximizing) {
       for (const move of moves) {
-        const val = this.minimax(state.move(move), !maximizing, depth-1);
-        minimaxVal = Math.max(minimaxVal, val);
+        const val = this.minimax(state.move(move), !maximizing, depth+1);
+        minMaxVal = Math.max(minMaxVal, val);
       }
     } else {
       for (const move of moves) {
-        const val = this.minimax(state.move(move), !maximizing, depth-1);
-        minimaxVal = Math.min(minimaxVal, val);
+        const val = this.minimax(state.move(move), !maximizing, depth+1);
+        minMaxVal = Math.min(minMaxVal, val);
       }
     }
-    return minimaxVal;
+    return minMaxVal;
   }
 }
 
-
 class TTTGame {
-  /**
-   * @param {array} players 
-   */
   constructor(players) {
-    if (players.length !== 2)
-      throw 'Two players are required to play!';
-    for (const player of players) {
-      if (!(player instanceof Player) || (player.id !== PLAYER_X_ID && player.id !== PLAYER_O_ID))
-        throw 'Player must be instance of Player with X or O as id';
-    }
+    this.assertValidPlayers(players);
     this.players = players;
     this.history = [];
     this.stateListeners = [];
     this.state = GameState.create(...this.players);
   }
 
-  newGame() {
+  assertValidPlayers(players) {
+    if (players.length !== 2)
+      throw new Error('Two players are required to play');
+    for (const player of players) {
+      if (!(player instanceof Player))
+        throw new Error(`players must be of type Player, but is "${(typeof player)}" instead.`);
+    }
+    return true;
+  }
+
+  newGame(players) {
+    if (players && this.assertValidPlayers(players)) {
+      this.players = players;
+    }
     this.history = [];
     this.state = GameState.create(...this.players);
     this.updateState();
@@ -135,7 +227,7 @@ class TTTGame {
   }
 
   run() {
-    if ((!this.state.isWon() && this.state.movesLeft > 0) && this.state.player instanceof ComputerPlayer) {
+    if (!this.state.isGameOver() && this.state.player instanceof AIPlayer) {
       const newState = this.state.player.doMove(this.state);
       if (newState !== undefined) {
         this.updateState(newState);
@@ -143,12 +235,8 @@ class TTTGame {
     }
   }
 
-  /**
-   * Handle a cell that was clicked.
-   * @param {number} i id of clicked cell
-   */
-  onCellClicked = (i) => {
-    if (this.state.player instanceof HumanPlayer) {
+  move = (i) => {
+    if (!this.state.isGameOver() && this.state.player instanceof HumanPlayer) {
       const newState = this.state.move(i);
       if (newState !== undefined) {
         this.updateState(newState);
@@ -159,7 +247,7 @@ class TTTGame {
   updateState(newState) {
     if (newState !== undefined) {
       this.history.push(this.state);
-      this.state = newState;  
+      this.state = newState;
     }
     for (const listener of this.stateListeners) {
       listener(this.state, this.history);
@@ -167,85 +255,13 @@ class TTTGame {
   }
 }
 
-class GameState {
-  static UNPLAYED_POS = ' ';
-  static WINSETS = [[0,1,2], [3,4,5], [6,7,8], [0,4,8], [6,4,2], [0,3,6],[1,4,7],[2,5,8]];
-
-  static create(player, otherPlayer) {
-    return new GameState(new Array(9).fill(GameState.UNPLAYED_POS), player, otherPlayer);
-  }
-
-  /**
-   * 
-   * @param {array} positions 
-   * @param {Player} player 
-   * @param {Player} otherPlayer 
-   */
-  constructor(positions, player, otherPlayer, i) {
-    this.positions = positions;
-    this.player = player;
-    this.otherPlayer = otherPlayer;
-    this.i = i;
-    this.movesLeft = this.getAvailableMoves().length;
-  }
-
-  isAvailable(i) {
-    return this.positions[i] === GameState.UNPLAYED_POS;
-  }
-
-  isWon() {
-    for (const s of GameState.WINSETS) {
-      if (GameState.UNPLAYED_POS !== this.positions[s[0]]
-            && this.positions[s[0]] === this.positions[1]
-            && this.positions[s[0]] === this.positions[2])
-        return true;
-    }
-    return false;
-  }
-
-  getAvailableMoves() {
-    const moves = [];
-    for (let i=0; i < this.positions.length; i++) {
-      if (this.positions[i] === GameState.UNPLAYED_POS)
-        moves.push(i);
-    }
-    return moves;
-  }
-
-  evaluate(maximizing) {
-    const won = this.isWon();
-    if (won && maximizing) {
-      // this move would have been maximizing, but winning move was previous
-      return -1; 
-    } else if (won) {
-      return 1;
-    }
-    return 0;
-  }
-
-  move(i) {
-    const positions = Array.from(this.positions);
-    positions[i] = this.player.id;
-    return new GameState(
-        positions, 
-        this.otherPlayer, 
-        this.player,
-      );
-  }
-}
-
-
-/**
- * Represents a board in the user interface context, responsible for drawing
- * grid, cells and listening for cell clicks, does not manage game state.
- */
 class Board {
   /**
    * @param {number} size dimension of board (e.g, 1 side)
    * @param {numer} x left most position of board
    * @param {number} y top most position of board
    */
-  constructor(size, x, y) {
+   constructor(size, x, y) {
     this.size = size;
     this.x = x;
     this.y = y;
@@ -317,10 +333,12 @@ class Board {
         break;    
       }
     }
-  }
+  }  
 }
 
-let board, game;
+/////// Canvas setup, user interface
+let board, game, player1, player2;
+
 function setup() {
   const sketch = sketchHelper('sketch');
   const size = Math.max(180, Math.min(300, sketch.width));
@@ -338,44 +356,61 @@ function setup() {
   board = new Board(boardSize, boardX, boardY);
   board.drawGrid();
 
-  game = new TTTGame([
-      //new SimpleComputerPlayer(PLAYER_O_ID, 'Simple Computer')
-      new HardComputerPlayer(PLAYER_X_ID, 'Hard Computer'),
-      new HumanPlayer(PLAYER_O_ID, 'Human')
-    ]);
+  const aiEasyPlayer = new AIPlayer('X', 'Easy AI')
+  const aiHardPlayer = new HardAIPlayer('X', 'Hard AI');
+  const human1Player = new HumanPlayer('X', 'Human 1')
+  const human2Player = new HumanPlayer('O', 'Human 2');
+
+  game = new TTTGame([aiHardPlayer, human2Player]);
   game.registerStateListener(board.onNewCellStates);
-  board.registerCellListener(game.onCellClicked);
+  board.registerCellListener(game.move);
 
   const menuDiv = createDiv();
   menuDiv.parent(mainDiv);
   menuDiv.class('ml2 mt1 w-30')
-  const newGameBtn = createButton('new game')
+
+  const selectGame = createSelect();
+  selectGame.parent(menuDiv);
+  selectGame.option(`${aiHardPlayer.name} vs. ${human1Player.name}`, 'ahvh1');
+  selectGame.option(`${aiEasyPlayer.name} vs. ${human1Player.name}`, 'aevh1');
+  selectGame.option(`${human1Player.name} vs. ${human2Player.name}`, 'h1vh2');
+  selectGame.selected('ahvh1');
+
+  const newGameBtn = createButton('New game')
+  newGameBtn.class('mt2')
   newGameBtn.parent(menuDiv);
   newGameBtn.mousePressed(() => {
-    console.log('New game')
-    game.newGame();
+    switch (selectGame.value()) {
+      case 'ahvh1':
+        game.newGame([aiHardPlayer, human2Player]);
+        break;
+      case 'aevh1':
+        game.newGame([aiEasyPlayer, human2Player]);
+        break;
+      default:
+        game.newGame([human1Player, human2Player]);
+        break;
+    }
     board.drawGrid();
   });
 
-  const label = createDiv();
-  label.parent(menuDiv);
+  const statusLabel = createDiv();
+  statusLabel.class("mt3 fw6");
+  statusLabel.html('Status')
+  statusLabel.parent(menuDiv);
+
+  const status = createDiv();
+  status.parent(menuDiv);
 
   game.registerStateListener((state, history) => {
-    let prevMove = '';
-    if (history.length > 0) {
-      const prevState = history[history.length-1];
-      if (prevState.isWon()) {
-        label.html(`<div>${prevState.player.name} player ${prevState.player.id} wins!!!!!</div>`);
-        return;
-      }
-      prevMove = `<div>${prevState.player.name} player ${prevState.player.id} =></div>`
+    const prev = history.length > 0 ? history[history.length-1] : {}
+    if (state.isGameOver()) {
+      const prev = history[history.length-1];
+      if (state.isWon()) status.html(`<div>${prev.player.id} wins!!!!</div>`);
+      else status.html(`<div>It's a tie!</di>`);
     } else {
-      prevMove = 'Starting new game!'
+      status.html(`<div>Waiting for player ${state.player.id}...</div>`);
     }
-    label.html(`
-      <div>${prevMove}</div>
-      <div>${state.player.name} player ${state.player.id}'s turn</div>
-    `);
   });
   
   game.start();
@@ -388,180 +423,3 @@ function mousePressed() {
 function draw() {
   game.run();
 }
-
-
-// class GameState {
-//   static UNPLAYED_POS = ' ';
-
-//   static create(player, otherPlayer) {
-//     return new GameState(new Array(9).fill(GameState.UNPLAYED_POS), player, otherPlayer);
-//   }
-
-//   constructor(positions, player, otherPlayer) {
-//     this.positions = positions;
-//     this.player = player;
-//     this.otherPlayer = otherPlayer;
-//     this.movesLeft = this.getAvailableMoves().length;
-//   }
-
-//   isWonState(a, b, c) {
-//     return GameState.UNPLAYED_POS !== this.positions[a]
-//       && this.positions[a] === this.positions[b]
-//       && this.positions[a] === this.positions[c];
-//   }
-
-//   isWon() {
-//     return this.isWonState(0, 1, 2) || this.isWonState(3, 4, 5) || this.isWonState(6, 7, 8)
-//       || this.isWonState(0, 4, 8) || this.isWonState(6, 4, 2) || this.isWonState(0, 3, 6)
-//       || this.isWonState(1, 4, 7) || this.isWonState(2, 5, 8);
-//   }
-
-//   getAvailableMoves() {
-//     const moves = [];
-//     for (let i=0; i < this.positions.length; i++) {
-//       if (this.positions[i] === GameState.UNPLAYED_POS)
-//         moves.push(i);
-//     }
-//     return moves;
-//   }
-
-//   move(pos) {
-//     const positions = Array.from(this.positions);
-//     positions[pos] = this.player.id;
-//     return new GameState(
-//         positions,
-//         this.otherPlayer,
-//         this.player
-//       );
-//   }
-// }
-
-// /**
-//  * 
-//  * @param {GameState} state 
-//  */
-// function miniMax(state, maximizing, player, depth) {
-//   const won = state.isWon();
-//   if (won || state.movesLeft === 0 || depth <= 0) {
-//     if (won && state.player !== player) {
-//       console.log('won other', JSON.stringify(state))
-//       //return 1 + (depth >= 0 ? depth : 0);
-//       return 1;
-//     } else if (won) {
-//       console.log('won player', JSON.stringify( state))
-//       //return -1 - (depth >= 0 ? depth : 0);
-//       return -1;
-//     } else {
-//       return 0;
-//     }
-//   }
-
-//   const moves = state.getAvailableMoves();
-//   let minmax = maximizing ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
-//   if (maximizing) {
-//     for (const move of moves) {
-//       const val = miniMax(state.move(move), !maximizing, player, depth-1);
-//       minmax = Math.max(minmax, val);
-//     }
-//   } else {
-//     for (const move of moves) {
-//       const val = miniMax(state.move(move), !maximizing, player, depth-1);
-//       minmax = Math.min(minmax, val);
-//     }
-//   }
-//   return minmax;
-// }
-
-
-// /**
-//  * 
-//  * @param {GameState} state 
-//  */
-// function play(state, player, depth) {
-//   // x turn
-//   if (state.movesLeft >= 7) {
-//     for (const i of [4, 0, 2, 6, 8]) {
-//       if (state.positions[i] === GameState.UNPLAYED_POS) {
-//         state = state.move(i);
-//         break;
-//       }
-//     }
-//   }
-
-//   // o turn
-//   if (state.movesLeft >= 7) {
-//     for (const i of [6, 8]) {
-//       if (state.positions[i] === GameState.UNPLAYED_POS) {
-//         state = state.move(i);
-//         break;
-//       }
-//     }
-//   }
-
-//   // x turn
-//   if (state.movesLeft >= 7) {
-//     for (const i of [4, 0, 2, 6, 8]) {
-//       if (state.positions[i] === GameState.UNPLAYED_POS) {
-//         state = state.move(i);
-//         break;
-//       }
-//     }
-//   }
-
-//   // 0 turn
-//   let minVal = Number.POSITIVE_INFINITY;
-//   let minMove;
-//   for (const i of state.getAvailableMoves()) {
-//     const val = miniMax(state, true, player, depth);
-//     if (minVal > val) {
-//       console.log('minimizing val', val);
-//       minVal = val;
-//       minMove = i;
-//     }
-//   }
-//   state = state.move(minMove);
-
-//   // x turn
-//   let maxVal = Number.NEGATIVE_INFINITY;
-//   let maxMove;
-//   for (const i of state.getAvailableMoves()) {
-//     const val = miniMax(state, false, player, depth);
-//     if (maxVal < val) {
-//       console.log('maximizing val', val);
-//       maxVal = val;
-//       maxMove = i;
-//     }
-//   }
-//   state = state.move(maxMove);
-
-//   // o turn
-//   minVal = Number.POSITIVE_INFINITY;
-//   for (const i of state.getAvailableMoves()) {
-//     const val = miniMax(state, true, player, depth);
-//     if (minVal > val) {
-//       console.log('minimizing val', val);
-//       minVal = val;
-//       minMove = i;
-//     }
-//   }
-//   state = state.move(minMove);
-  
-//   // x turn
-//   maxVal = Number.NEGATIVE_INFINITY;
-//   for (const i of state.getAvailableMoves()) {
-//     const val = miniMax(state, false, player, depth);
-//     if (maxVal < val) {
-//       console.log('maximizing val', val);
-//       maxVal = val;
-//       maxMove = i;
-//     }
-//   }
-//   state = state.move(maxMove);
-//   console.log(JSON.stringify(state));
-// }
-
-// const player = {id: 'X'};
-// const otherPlayer = {id: 'O'};
-// const state = GameState.create(player, otherPlayer);
-
-// play(state, player, 20);

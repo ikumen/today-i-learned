@@ -4,18 +4,16 @@ tags: minimax, algorithms, game
 description: An introduction to the minimax algorithm with tic-tac-toe
 ---
 
-<!-- # Tic-Tac-Toe with Minimax Algorithm
+# Tic-Tac-Toe with Minimax Algorithm
 
-An introduction to the minimax algorithm with tic-tac-toe.
+An introduction to the [minimax algorithm](https://en.wikipedia.org/wiki/Minimax) with tic-tac-toe.
 
 <div class="center">
 <div id="sketch" class="w-100"></div>
 </div>
--->
+
 <script src="/static/js/p5.js"></script>
-<script defer src="/static/js/tiny-test.js"></script> 
-<script defer src="/static/js/ttt.js"></script> 
-<!-- <script defer src="/static/js/ttt-with-minimax.js"></script>  -->
+<script defer src="/static/js/ttt-with-minimax.js"></script> 
 
 ## How it works
 
@@ -26,12 +24,12 @@ The idea behind minimax is easier to demonstrate visually so let's do that now w
 Suppose we have the current game state and we are player `x` and it's our turn. 
 
 ```bash   
-x o x     # assume cells  1 2 3
-o o _     # are           4 5 6
-_ x _     # numbered      7 8 9
+x o x     # assume cells  0 1 2
+o o _     # are           3 4 5
+_ x _     # numbered      6 7 8
 ```
 
-To figure out our next move using an alogrithm like minimax, we simply simulate every round, alternating between being `x` and our opponent `o`. The name minimax comes from the fact that we want to maximize on our (`x`) turn, while minimizing when we simulate our opponent `o`'s turn. Let' see how that would play out for each round. 
+To figure out our next move using an algorithm like minimax, we simply simulate every round, alternating between being `x` and our opponent `o`. The name minimax comes from the fact that we want to maximize on our (`x`) turn, while minimizing when we simulate our opponent `o`'s turn. Let' see how that would play out for each round. 
 
 ```python
 current    x turn        o turn       x turn
@@ -65,35 +63,35 @@ _ x _   |   x x _    |   x x _
 
 Starting with the first round, it's our turn and we can go in either 6, 7 or 9. 
 
+#### Position 5 path
+Let's take 5 and see if it's a good move. 
+* next in the minimax algorithm, we switch and simulate being `o`, making the best possible move for `o`, who is left with positions 6 and 8
+  - if `o` takes 6
+    - the next round `x` would be left with 8 and `x` wins the game 
+  - if `o` takes 8
+    - the next round `x` would be left with 6 which leads to a tie
+  - so `o` would take 8 to maximize (tie vs losing)
+* ultimately if we take 5, and `o` played optimally, we get a tie
+
 #### Position 6 path
-Let's take 6 and see if it's a good move. 
-* next in the minimax algorithm, we switch and simulate being `o`, making the best possible move for `o`, who is left with positions 7 and 9
-  - if `o` takes 7
-    - the next round `x` would be left with 9 and `x` wins the game 
-  - if `o` takes 9
-    - the next round `x` would be left with 7 which leads to a tie
-  - so `o` would take 9 to maximize (tie vs losing)
-* ultimately if we take 6, and `o` played optimally, we get a tie
+Next we do try the simulation but this time take 6 to start.
+* in minimax, we would switch to play optimally for `o` which is left with 5 and 8
+  - if `o` takes 5, it wins
+  - if `o` takes 8, 
+    - next round `x` would take 5 and cause a tie
+  - so `o` would take 5 to maximize (win vs tie)
+* ultimately if we take 6, `o` would optimally play 5 and we loose 
 
-#### Position 7 path
-Next we do try the simulation but this time take 7 to start.
-* in minimax, we would switch to play optimally for `o` which is left with 6 and 9
-  - if `o` takes 6, it wins
-  - if `o` takes 9, 
-    - next round `x` would take 6 and cause a tie
-  - so `o` would take 6 to maximize (win vs tie)
-* ultimately if we take 7, `o` would optimally play 6 and we loose 
+#### Position 8 path
+Finally what if we start by taking 8.
+* that would leave `o` with 5 and 6
+  - if `o` takes 5, it wins
+  - if `o` takes 6
+    - the next round `x` would be left with 5 and win
+  - so `o` would play optimally and take 5
+* ultimately if we take 8 to start, `o` would optimally take 5 and we loose
 
-#### Position 9 path
-Finally what if we start by taking 9.
-* that would leave `o` with 6 and 7
-  - if `o` takes 6, it wins
-  - if `o` takes 7
-    - the next round `x` would be left with 6 and win
-  - so `o` would play optimally and take 6
-* ultimately if we take 9 to start, `o` would optimally take 6 and we loose
-
-So the best move for us (`x`) would be 6, even though it's not a winning move, it would guarantee a tie. 
+So the best move for us (`x`) would be 5, even though it's not a winning move, it would guarantee a tie. 
 
 At this point, you're probably wondering how each simulated round would pass maximizing or minimizing information back to the originating caller. We can use a simple rule that returns positive values when maximizing, and negative values on a turn that is minimizing, and zero for ties. To indicate which round we are in, a boolean flag will suffice. 
 
@@ -272,16 +270,6 @@ class HardComputerPlayer extends ComputerPlayer {
    * @param {GameState} state 
    */
   doMove(state) {
-    // The two initial moves we can select directly as it's 
-    // advantageous to select the middle or corner positions.
-    if (state.movesLeft >= 7) {
-      for (const i of [4, 0, 2, 6, 8]) {
-        if (state.isAvailable(i)) return state.move(i);
-      }
-    }
-
-    // Beyond the two initial moves, lets deploy minimax to 
-    // determine the best move.
     const moves = state.getAvailableMoves();
     let maxVal = Number.NEGATIVE_INFINITY;
     let maxMove;
@@ -305,6 +293,8 @@ For each potential move, it runs minimax until the end of a game, and passes bac
 Minimax itself is simply a recursive function that iterates through remaining moves and applies minimax, each time switching between maximizing the value and minimizing the value. The base case is when a player wins, a tie or a max recursion depth is reached.
 
 ```javascript
+class HardComputerPlayer extends ComputerPlayer {
+  ...
   /**
    * 
    * @param {GameState} state current state of game
@@ -323,21 +313,111 @@ Minimax itself is simply a recursive function that iterates through remaining mo
     }
 
     const moves = state.getAvailableMoves();
-    let minMaxVal = maximizing ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
     if (maximizing) {
+      let maxVal = Number.NEGATIVE_INFINITY;
       for (const move of moves) {
-        const val = this.minimax(state.move(move), !maximizing, depth+1);
-        minMaxVal = Math.max(minMaxVal, val);
+        const nextState = state.move(move);
+        maxVal = Math.max(maxVal, this.minimax(nextState, !maximizing, depth+1));
       }
-    } else {
+      return maxVal;
+    } 
+    else {
+      let minVal = Number.POSITIVE_INFINITY;
       for (const move of moves) {
-        const val = this.minimax(state.move(move), !maximizing, depth+1);
-        minMaxVal = Math.min(minMaxVal, val);
+        const nextState = state.move(move);
+        minVal = Math.min(minVal, this.minimax(nextState, !maximizing, depth+1));
       }
+      return minVal;
     }
-    return minMaxVal;
   }
 }
 ```
 
-Let's test out the minimax 
+At this point we have the minimax algorithm implemented so let's run some quick test to validate our implementation. I'll be using my homegrown [TinyTest framework](/til/tiny-test/), and the same starting state as our sample above.
+
+```bash   
+x o x
+o o _
+_ x _
+```
+
+First we'll test minimax in isolation with each of the 3 possible starting positions for player `X` and see what the maximizing value is in return. From our walk through above, we are expecting
+
+* start at 5 => 0
+* start at 6 => -1
+* start at 8 => -1
+
+```javascript
+TinyTest.init();
+
+describe('HardComputerPlayer', () => {
+    // Given, the following state, and players
+    const initialState = ['X', 'O', 'X', 'O', 'O', ' ', ' ', 'X', ' '];
+    const computerPlayer = new HardComputerPlayer('X', 'Computer');
+    const humanPlayer = {id: 'O', name: 'Human'};    
+    const state = new GameState(initialState, computerPlayer, humanPlayer);
+
+  describe('#minmax()', () => {
+    it('Should return 0 (tied as final game state) if X starts at 5', () => {
+      assertEquals(0, computerPlayer.minimax(state.move(5), false, 0));
+    });
+    it('Should return -1 (O wins as final game state) if X starts at 6', () => {
+      assertEquals(-1, computerPlayer.minimax(state.move(6), false, 0));
+    });
+    it('Should return -1 (O wins as final game state) if X starts at 8', () => {
+      assertEquals(-1, computerPlayer.minimax(state.move(8), false, 0));
+    });
+  })
+})
+```
+
+And as expected we get the following.
+
+```bash
+HardComputerPlayer
+  #minmax()
+    ✔ Should return 0 (tied as final game state) if X starts at 5 
+    ✔ Should return -1 (O wins as final game state) if X starts at 6
+    ✔ Should return -1 (O wins as final game state) if X starts at 8
+ 3 passing, 0 failing
+```
+
+Finally, we test to see if `doMove` correctly selects the maximal move.
+
+```javascript
+describe('HardComputerPlayer', () => {
+    // Given, the following state, and players
+    const initialState = ['X', 'O', 'X', 'O', 'O', ' ', ' ', 'X', ' '];
+    const computerPlayer = new HardComputerPlayer('X', 'Computer');
+    const humanPlayer = {id: 'O', name: 'Human'};    
+    const state = new GameState(initialState, computerPlayer, humanPlayer);
+
+    ...
+
+  describe('#doMove(state)', () => {
+    it('Should return the best move (5) given the current state', () => {
+      // expected state after best move
+      const expected = Array.from(state.positions);
+      expected[5] = computerPlayer.id;
+      assertEquals(expected, computerPlayer.doMove(state).positions);
+    })
+  })
+})
+```
+
+Great `doMove` correctly selects the maximizing move.
+
+```bash
+HardComputerPlayer
+  #minmax()
+    ✔ Should return 0 (tied as final game state) if X starts at 5 
+    ✔ Should return -1 (O wins as final game state) if X starts at 6
+    ✔ Should return -1 (O wins as final game state) if X starts at 8
+  #doMove(state)
+    ✔ Should return the best move (5) given the current state
+ 4 passing, 0 failing
+```
+
+We just covered a basic implementation of the minimax algorithm, if you'd like to see how it was integrated into the demo game above [checkout the source](https://github.com/ikumen/today-i-learned/blob/main/src/main/resources/META-INF/resources/static/js/ttt-with-minimax.js) [on GitHub](https://github.com/ikumen/today-i-learned). Alternatively you can [play with it on p5js.org](https://editor.p5js.org/ikumen/sketches/tRJ5If1NC).
+
+

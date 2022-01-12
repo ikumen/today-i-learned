@@ -9,7 +9,7 @@ const WIN_SETS = [
 ];
 
 /* The max depth to allow minimax alogrithm to run */
-const MM_MAX_SEARCH_DEPTH = 20;
+const MM_MAX_SEARCH_DEPTH = Number.POSITIVE_INFINITY;
 
 /**
  * Return a number between 0 and max (exclusive).
@@ -164,11 +164,11 @@ class HardAIPlayer extends AIPlayer {
    */
   minimax(state, maximizing, depth) {
     const isWon = state.isWon();
-    if (isWon || state.movesLeft === 0 || depth >= MM_MAX_SEARCH_DEPTH) {
+    if (isWon || state.movesLeft === 0 || depth > MM_MAX_SEARCH_DEPTH) {
       // previous move was the winning move and by the opponent so we should minimize this path
-      if (isWon && maximizing) return -1;
+      if (isWon && maximizing) return -1 / depth;
       // otherwise previous move was winning and by us, so we should maximize this path
-      else if (isWon) return 1;
+      else if (isWon) return 1 / depth;
       return 0;
     }
 
@@ -176,12 +176,12 @@ class HardAIPlayer extends AIPlayer {
     let minMaxVal = maximizing ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
     if (maximizing) {
       for (const move of moves) {
-        const val = this.minimax(state.move(move), !maximizing, depth+1);
+        const val = this.minimax(state.move(move), false, depth+1);
         minMaxVal = Math.max(minMaxVal, val);
       }
     } else {
       for (const move of moves) {
-        const val = this.minimax(state.move(move), !maximizing, depth+1);
+        const val = this.minimax(state.move(move), true, depth+1);
         minMaxVal = Math.min(minMaxVal, val);
       }
     }

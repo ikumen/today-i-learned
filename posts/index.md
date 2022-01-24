@@ -8,27 +8,16 @@
 <!-- Generated content end -->
 
 <!--
+TODO
 * erasure coding
 * traversal
 * ascii
 * mini neural network
-* bloom filters
+* minesweep
 * tries
 * search
-* mini max
 * kmp
-* csp
 * blockchain
-* rabin karp
 * matrix
-* disjoint
-* traversals
-* sorting
-
-
-* [Heap](/src/main/java/com/gnoht/til/datastructures#heap)
-* [Linked List](/src/main/java/com/gnoht/til/datastructures)
-* [Queue](/src/main/java/com/gnoht/til/datastructures)
-* [Stack](/src/main/java/com/gnoht/til/datastructures#stack)
 -->
 

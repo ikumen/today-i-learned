@@ -1,8 +1,8 @@
-# Things I've built
+# Things built
 
-A list of things I've built through the years.
+A list of things I've built through the years, with some help from my kids.
 
-## Big Kid's First Computer
+### Daughter's First Computer
 
 My daughter building her first computer&mdash;an Ethereum mining rig&mdash;with a little help from me.
 
@@ -15,7 +15,7 @@ My daughter building her first computer&mdash;an Ethereum mining rig&mdash;with 
   <img src="/static/images/mining6.jpg" class="w-20 pb2 mr2">
 </section>
 
-## Wall Shelving
+### Wall Shelving
 
 Custom wall shelving with [Elfa brackets](https://www.containerstore.com/s/elfa/components/platinum-elfa-ventilated-and-decor-wire-shelf-brackets/12d?productId=10006043).
 
@@ -23,7 +23,7 @@ Custom wall shelving with [Elfa brackets](https://www.containerstore.com/s/elfa/
   <img src="/static/images/wall-shelf.jpg" class="w-40 pb2 mr2">
 </section>
 
-## Storage Bench
+### Storage Bench
 
 Built-in storage bins and cubbies that can function as bench.
 
@@ -44,7 +44,7 @@ Built-in storage bins and cubbies that can function as bench.
   <img src="/static/images/storagebench14.jpg" class="w-20 pb2 mr2">
 </section>
 
-## Closet Shelving
+### Closet Shelving
 
 My new [Festool track saw](https://www.festoolusa.com/products/sawing/track-saws/576011---ts-55-req-f-plus-us) came in today :-). I put it to use and built some shelving for my wife's closet.
 <section class="cf flex flex-wrap">
@@ -53,7 +53,7 @@ My new [Festool track saw](https://www.festoolusa.com/products/sawing/track-saws
   <img src="/static/images/masterclosetshelf3.jpg" class="w-30 pb2 mr2">
 </section>
 
-## Bedroom Built-in Shelves
+### Bedroom Built-in Shelves
 
 My first time working with [europly](https://www.columbiaforestproducts.com/product/europly-plus/), building built-in shelves in our master bedroom.
 <section class="cf flex flex-wrap">
@@ -67,7 +67,7 @@ My first time working with [europly](https://www.columbiaforestproducts.com/prod
   <img src="/static/images/mastershelf7.jpg" class="w-30 pb2 mr2">
 </section>
 
-## Remodel - Tile Floor Install
+### Remodel - Tile Floor Install
 
 Installed new floor tiles in our small bedroom's bathroom. I really enjoyed using [Schluter Ditra](https://www.schluter.com/schluter-us/en_US/Membranes/Uncoupling-DITRA/Schluter%C2%AE-DITRA-&-DITRA-XL/p/DITRA) as the subfloor membrane&mdash;super easy install and provides water proofing and decoupling.
 
@@ -84,7 +84,7 @@ Installed new floor tiles in our small bedroom's bathroom. I really enjoyed usin
   <img src="/static/images/bathroom2-11.jpg" class="w-30 pb2 mr2">
 </section>
 
-## Jump Ramp
+### Jump Ramp
 Some friends and I building a jump ramp for a movie+skate jam at the [Downtown Independent's](https://downtownindependent.com/about-our-theater/) showing of [Thrashin](https://www.imdb.com/title/tt0092085/).
 
 

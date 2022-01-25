@@ -12,7 +12,8 @@ blockquote {
   margin-left: 10px;
   font-style: italic;
 }
-
+ul, ol { padding-inline-start: 30px; }
+li p { margin-bottom: 0;}
 .mask { display: none; }
 .reverse { 
   unicode-bidi:bidi-override; 

@@ -70,6 +70,8 @@ class BloomFilter {
     this.h2 = h2;
     this.k = k;
     this.listeners = [];
+    this.items = {};
+    this.prob;
   }
 
   addListener(cb) {
@@ -84,12 +86,21 @@ class BloomFilter {
 
   add(item) {
     const keys = [];
+    Math.fround
     for (let i=0; i < this.k; i++) {
       const h = (this.h1(item) + i * this.h2(item)) % this.bits.length;
       keys.push(h);
       this.bits[h] = 1;
     }
+    this.items[item] = keys;
+    this.updateFalsePositiveProbability();
     this.notifyListeners(item, keys);
+  }
+
+  updateFalsePositiveProbability() {
+    const n = Object.keys(this.items).length;
+    const prob = Math.pow(1 - Math.exp(-this.k / (this.bits.length / n)), this.k) * 100;
+    this.prob = Math.round((prob + Number.EPSILON) * 100) / 100;
   }
 
   contains(item) {
@@ -102,9 +113,12 @@ class BloomFilter {
   }
 }
 
-function makeCell(row, value) {
+function makeCell(row, value, em) {
   const cell = row.insertCell();
   cell.classList.add("ph2");
+  if (em) {
+    cell.classList.add("fw7")
+  }
   cell.innerText = value;
 }
 
@@ -120,21 +134,27 @@ ready(() => {
   const bfAddInputEl = el("bf-add-input");
   const bfAddBtnEl = el("bf-add-btn");
   const itemKeysEl = el("item-keys");
+  const fpProbEl = el("fp-prob");
   const bfLookupInputEl = el("bf-lookup-input");
   const bfLookupBtnEl = el("bf-lookup-btn");
   const lookupResultsEl = el("lookup-results");
 
   bfAddBtnEl.addListener('click', (ev) => {
     const val = bfAddInputEl.get().value;
+    bfAddInputEl.get().value = "";
     bf.add(val);
+    if (bf.prob) {
+      fpProbEl.get().innerHTML = `<b>${bf.prob}%</b>`;
+    }
   });
 
   bfLookupBtnEl.addListener('click', (ev) => {
     const val = bfLookupInputEl.get().value;
+    bfLookupInputEl.get().value = "";
     if (!bf.contains(val)) {
-      lookupResultsEl.get().innerHTML = `No "${val}" is not in set.`;
+      lookupResultsEl.get().innerHTML = `No "<b>${val}</b>" is not in set.`;
     } else {
-      lookupResultsEl.get().innerHTML = `"${val}" may be in the set.`;
+      lookupResultsEl.get().innerHTML = `"<b>${val}</b>" may be in the set, with above probability of a false positive.`;
     }
   });
 
@@ -147,7 +167,7 @@ ready(() => {
     const bitsRow = tbody.insertRow();
     const indexRow = tbody.insertRow();
     for (let i=0; i < bits.length; i++) {
-      makeCell(bitsRow, bits[i]);
+      makeCell(bitsRow, bits[i], bits[i] === 1);
       makeCell(indexRow, i);
     }
 

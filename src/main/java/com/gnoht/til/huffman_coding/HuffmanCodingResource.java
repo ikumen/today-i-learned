@@ -1,13 +1,11 @@
 package com.gnoht.til.huffman_coding;
 
 import com.gnoht.til.datastructures.Heap;
-import com.gnoht.til.datastructures.Queue;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 @Path("/api/huffman")
 public class HuffmanCodingResource {
@@ -19,43 +17,7 @@ public class HuffmanCodingResource {
     for (char c : s.toCharArray()) {
       encoding.append(encodingTable.get(c));
     }
-
     return new EncodingResult(encoding.toString(), encodingTable);
-  }
-
-  public static void main(String[] args) {
-    String s = "taaaaaaggcccc";
-    HuffmanCodingResource huff = new HuffmanCodingResource();
-    Map<Character, Integer> charCounts = huff.getCharCounts(s);
-    HuffmanTreeNode huffmanTree = huff.buildHuffmanTree(charCounts);
-    Queue<HuffmanTreeNode> queue = new Queue<>();
-    queue.enqueue(huffmanTree);
-    while (queue.size() > 0) {
-      System.out.println("------");
-      int lvlSize = queue.size();
-      while (lvlSize-- > 0) {
-        HuffmanTreeNode node = queue.dequeue();
-        System.out.print(node.ch + "  ");
-        if (node.left != null)
-          queue.enqueue(node.left);
-        if (node.right != null)
-          queue.enqueue(node.right);  
-      }
-      System.out.println();
-    }   
-    Map<Character, String> table = huff.buildEncodingTable(huffmanTree);         
-    System.out.println("-------");
-    for (Entry<Character, String> e : table.entrySet())
-      System.out.println(e.getKey() + "==" + e.getValue());
-
-    Map<Character, String> encodingTable = huff.buildEncodingTable(s);
-    StringBuilder encoding = new StringBuilder();
-    for (char c : s.toCharArray()) {
-      encoding.append(encodingTable.get(c));
-    }
-
-    System.out.println(encoding.toString());
-
   }
 
   Map<Character, String> buildEncodingTable(String s) {

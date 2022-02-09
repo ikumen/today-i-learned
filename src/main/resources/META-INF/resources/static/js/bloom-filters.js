@@ -125,10 +125,12 @@ function makeCell(row, value, em) {
 
 
 ready(() => {
-  const bf = new BloomFilter({ m: 20,
+  const bf = new BloomFilter({ 
+      m: 20,
       h1: (item) => murmurhash3(item, 113),
       h2: (item) => murmurhash3(item, 271),
-      k: 3 });
+      k: 3 
+    });
 
   const bitsEl = el("bits");
   const bfAddInputEl = el("bf-add-input");

@@ -79,7 +79,7 @@ function setup() {
 
 ![cells to vertices](/static/images/kruskal-maze-generator/cells-vertex.png)
 
-The first step of Kruskal's algorithm is to convert all the vertices to individual [disjoint sets](https://en.wikipedia.org/wiki/Disjoint-set_data_structure). We'll do that by creating a custom `VertexDisjointSet` class to hold a vertex's (e.g, cell) coordinates while supporting disjoint set operations. Additionally we will add an `Edge` class to represent the relation between two vertex.
+The first step of Kruskal's algorithm is to convert all the vertices to individual [disjoint sets](https://en.wikipedia.org/wiki/Disjoint-set_data_structure). We'll do that by creating a custom `VertexDisjointSet` class to hold a vertex's (e.g. cell) coordinates while supporting disjoint set operations. Additionally we will add an `Edge` class to represent the relation between two vertex.
 
 ```javascript
 // define outside of setup function
@@ -151,8 +151,8 @@ function setup() {
 ```
 
 To keep edge generation simple, we use the following formula, for every vertex:
- * we create an edge to the vertex above (e.g, row-1)
- * we create an edge to the vertex to the left (e.g, col-1)
+ * we create an edge to the vertex above (e.g. row-1)
+ * we create an edge to the vertex to the left (e.g. col-1)
  * except for the vertices in the top row, and first column
 
 Let's visualize what we have so far, vertices and their edges.
@@ -269,7 +269,7 @@ function setup() {
 
 ![connected edges only](/static/images/kruskal-maze-generator/connected-edges-only.png)
 
-The purple lines represent the minimum spanning tree (e.g, our maze path). If you look closely, you can see the tree spans to every vertex, thus every point on the corresponding maze path is access&mdash;a perfect maze.
+The purple lines represent the minimum spanning tree (e.g. our maze path). If you look closely, you can see the tree spans to every vertex, thus every point on the corresponding maze path is access&mdash;a perfect maze.
 
 We've just implemented Kruskal's algorithm, cool right? To finish off the maze generation, we simply remove all the vertex and edge lines and clear out the grid lines where ever there are connected vertices.
 

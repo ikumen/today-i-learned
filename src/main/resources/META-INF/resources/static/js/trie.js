@@ -91,7 +91,7 @@ class TrieNode {
   }
 
   /**
-   * Traverse through the subtree (e.g, node) and find words.
+   * Traverse through the subtree (e.g. node) and find words.
    * 
    * @param {TrieNode} node current TrieNode 
    * @param {string} prefix current prefix

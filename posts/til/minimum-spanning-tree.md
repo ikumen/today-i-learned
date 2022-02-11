@@ -17,7 +17,7 @@ An example of a [minimum spanning tree](https://en.wikipedia.org/wiki/Minimum_sp
 
 ## How it works
 
-Prim's algorithm takes a set of vertices (e.g, graph) as input and simply returns a subset of edges between the vertices that forms a tree that:
+Prim's algorithm takes a set of vertices (e.g. graph) as input and simply returns a subset of edges between the vertices that forms a tree that:
 
 * includes every vertex
 * the sum of edge weights/distances is minimal
@@ -30,7 +30,7 @@ Prim's algorithm takes a set of vertices (e.g, graph) as input and simply return
  4. repeat from step 1
  
 
-Note: `traversable` needs to be sorted every time we visit a vertex (step 2) and add new edges. To optimize this, a [min heap](https://github.com/ikumen/today-i-learned/blob/main/src/main/java/com/gnoht/til/datastructures/Heap.java) (e.g, priority queue) is a good data structure to use here.
+Note: `traversable` needs to be sorted every time we visit a vertex (step 2) and add new edges. To optimize this, a [min heap](https://github.com/ikumen/today-i-learned/blob/main/src/main/java/com/gnoht/til/datastructures/Heap.java) (e.g. priority queue) is a good data structure to use here.
 
 
 Here's the algorithm in pseudocode.

@@ -1,13 +1,13 @@
 ---
 title: Tries
 tags: data-structures
-description: An introduction to tries and some common applications
+description: An efficient search tree data structure commonly used for information retrieval like string matching and predictive text (e.g. autocomplete)
 date: 2021-10-18
 ---
 
 ## Tries
 
-[Tries](https://en.wikipedia.org/wiki/Trie) are search tree data structures used for storage and operations on strings. The strings in a trie are stored by character at each node in the trie, where strings with matching prefixes share a common path of ancestor nodes. Operations on the strings typically involves depth-first traversal of the trie. Tries are often used in string matching algorithms and predictive text (e.g, autocomplete).
+[Tries](https://en.wikipedia.org/wiki/Trie) are search tree data structures used for storage and operations on strings. The strings in a trie are stored by character at each node in the trie, where strings with matching prefixes share a common path of ancestor nodes. Operations on the strings typically involves depth-first traversal of the trie. Tries are often used in string matching algorithms and predictive text (e.g. autocomplete).
 
 <div class="bg-washed-yellow ph2 pv3">
   <div class="mb2">
@@ -140,7 +140,7 @@ private Collection<String> withPrefix(String prefix, int i) {
 private Collection<String> findCompleteStringInTree(
     TrieNode node, String prefix, Collection<String> results) 
 {
-  // Recursively (e.g, dfs) traverse down the tree, any time we
+  // Recursively (e.g. dfs) traverse down the tree, any time we
   // encounter a node that represents a complete string, add it
   // to our list of strings
   if (node.isComplete) {

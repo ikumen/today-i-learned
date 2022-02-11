@@ -26,7 +26,7 @@ function getRandomInt(max) {
  class GameState {
    /**
     * @param {array} positions array representing possible moves in the game
-    * @param {Player} player the player that generated this state (e.g, from a move)
+    * @param {Player} player the player that generated this state (e.g. from a move)
     * @param {Player} opponent the other player in the game
     */
   constructor(positions, player, opponent, i) {
@@ -257,7 +257,7 @@ class TTTGame {
 
 class Board {
   /**
-   * @param {number} size dimension of board (e.g, 1 side)
+   * @param {number} size dimension of board (e.g. 1 side)
    * @param {numer} x left most position of board
    * @param {number} y top most position of board
    */

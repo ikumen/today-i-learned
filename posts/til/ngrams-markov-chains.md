@@ -42,7 +42,7 @@ Congratulations! Today is your day. You're off to Great Places! You're off and a
 
 ## How it works
 
-An n-gram is simply a contiguous sequence of n units of text (e.g, characters or words) for a given text. Take for example this excerpt from [Green Eggs and Ham](https://en.wikipedia.org/wiki/Green_Eggs_and_Ham).
+An n-gram is simply a contiguous sequence of n units of text (e.g. characters or words) for a given text. Take for example this excerpt from [Green Eggs and Ham](https://en.wikipedia.org/wiki/Green_Eggs_and_Ham).
 
 > I am Sam Sam I am That Sam-I-am! That Sam-I-am! I do not like that Sam-I-am!
 
@@ -152,7 +152,7 @@ We start with a simple tokenizer, splitting our text into character tokens.
 class SimpleMarkovTextGenerator {
 
   /**
-   * Tokenize (e.g, split) given corpus into array of characters tokens.
+   * Tokenize (e.g. split) given corpus into array of characters tokens.
    * @param corpus text corpus to tokenize
    * @return array of characters tokens or empty array
    */
@@ -168,7 +168,7 @@ class SimpleMarkovTextGenerator {
 }
 ```
 
-Next we iterate through the character tokens and build a model (e.g, map of ngrams and their next characters).
+Next we iterate through the character tokens and build a model (e.g. map of ngrams and their next characters).
 
 ```java
 class SimpleMarkovTextGenerator {

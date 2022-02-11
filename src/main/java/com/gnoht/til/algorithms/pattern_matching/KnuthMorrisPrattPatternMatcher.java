@@ -69,7 +69,7 @@ public class KnuthMorrisPrattPatternMatcher {
         i += 1;
       } else {
         // We don't have a match so the current prefix/suffix ends, but
-        // there maybe a new suffix (e.g, shift right just 1) that may
+        // there maybe a new suffix (e.g. shift right just 1) that may
         // match the prefix, so don't reset just decrease length by 1 to
         // see if there is a new matching prefix/suffix
         if (l != 0) {

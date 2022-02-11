@@ -17,7 +17,7 @@ import java.util.*;
  *    if x < y, then bucket[hash(x)] < bucket[hash(y)]
  *
  * Algorithm:
- *  - create list of buckets (e.g, usually # buckets == # items)
+ *  - create list of buckets (e.g. usually # buckets == # items)
  *  - hash each item into respective buckets
  *  - sort each bucket that is > 1 size
  *  - repopulate origin array

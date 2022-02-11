@@ -25,7 +25,7 @@ Huffman coding is an algorithm for generating a prefix code commonly used for lo
 
 ## How it works
 
-All data (e.g, text, audio, photos,...) is represented in computing by [bits](https://en.wikipedia.org/wiki/Bit), a bunch of ones and zeros. To make any sense of this data, we have encoding schemes that tell us what a group of bits represents. There are different encoding schemes for different purposes, but for this example we'll focus on [US-ASCII](https://en.wikipedia.org/wiki/ASCII). 
+All data (e.g. text, audio, photos,...) is represented in computing by [bits](https://en.wikipedia.org/wiki/Bit), a bunch of ones and zeros. To make any sense of this data, we have encoding schemes that tell us what a group of bits represents. There are different encoding schemes for different purposes, but for this example we'll focus on [US-ASCII](https://en.wikipedia.org/wiki/ASCII). 
 
 ASCII is a fixed-width encoding scheme [that maps English characters and other symbols](https://www.asciitable.com/) to bits, specifically 8 bits. Let's take a look at some ASCII symbols and their representation in bits.
 
@@ -216,7 +216,7 @@ Huffman           : 10000000010110111111111
 Custom fixed-width: 11000000000000101001010101
 ASCII             : 01110100011000010110000101100001011000010110000101100001011001110110011101100011011000110110001101100011
 ```
-Roughly a 10% and 78% improvement over fixed-width and ASCII schemes respectively, but these numbers are not realistic in practice, the sample data is very small. In practice the number of symbols/characters in a body of text would be higher, leading to longer prefix codes (e.g, a deeper tree to maintain unique prefix codes). 
+Roughly a 10% and 78% improvement over fixed-width and ASCII schemes respectively, but these numbers are not realistic in practice, the sample data is very small. In practice the number of symbols/characters in a body of text would be higher, leading to longer prefix codes (e.g. a deeper tree to maintain unique prefix codes). 
 
 Anyways, that is how Huffman coding works. Let's summarize the steps and walk through a naive implementation. 
 
@@ -234,7 +234,7 @@ Huffman coding steps:
 
 For our naive implementation, we'll focus on encoding text character data to string representation of the binary ones and zeros. Before implementing, let's think about the data structures we'll need. 
 
-1. we need a data structure to encapsulate a symbol and frequency that can also behave like a node of the prefix tree, e.g, HuffmanTreeNode
+1. we need a data structure to encapsulate a symbol and frequency that can also behave like a node of the prefix tree, e.g. HuffmanTreeNode
 1. we'll need an efficient way to prioritize less frequent HuffmanTreeNode, like a priority queue
 
 Let's define the `HuffmanTreeNode` class.

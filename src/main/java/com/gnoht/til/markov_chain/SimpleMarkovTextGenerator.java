@@ -14,7 +14,7 @@ public class SimpleMarkovTextGenerator {
   }
 
   /**
-   * Tokenize (e.g, split) given corpus into array of character tokens.
+   * Tokenize (e.g. split) given corpus into array of character tokens.
    * @param corpus text corpus to tokenize
    * @return array of character tokens or empty array
    */

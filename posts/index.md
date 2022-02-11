@@ -14,8 +14,8 @@ TODO
 * ascii
 * mini neural network
 * minesweep
-* tries
 * search
+* geohash
 * kmp
 * blockchain
 * matrix

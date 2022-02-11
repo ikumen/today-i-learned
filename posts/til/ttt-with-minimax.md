@@ -172,7 +172,7 @@ We'll take a look at snippets of code from the tic-tac-toe game above. The game 
 
 `GameState` is an immutable object that will encapsulate the game's state for any given turn, with the following properties:
 
-* all positions within the game (e.g, the 3x3 cells)
+* all positions within the game (e.g. the 3x3 cells)
 * player that will play the next turn
 * opponent the other player
 
@@ -193,7 +193,7 @@ const WINSETS = [
 class GameState {
    /**
     * @param {array} positions array representing possible moves in the game
-    * @param {Player} player the player that generated this state (e.g, from a move)
+    * @param {Player} player the player that generated this state (e.g. from a move)
     * @param {Player} opponent the other player in the game
     */
   constructor(positions, player, opponent) {
@@ -214,7 +214,7 @@ class GameState {
 }
 ```
 
-Also, we want some helper methods to determine if the game is over (e.g, won or tie).
+Also, we want some helper methods to determine if the game is over (e.g. won or tie).
 
 ```javascript
 class GameState {
@@ -244,7 +244,7 @@ class GameState {
 }
 ```
 
-It would be nice to transition from one state to the next (e.g, taking a turn/move), `GameState` would be a good place for that functionality.
+It would be nice to transition from one state to the next (e.g. taking a turn/move), `GameState` would be a good place for that functionality.
 
 ```javascript
 class GameState {
@@ -319,7 +319,7 @@ class HardComputerPlayer extends ComputerPlayer {
 
 For each potential move, it runs minimax until the end of a game, and passes back at each turn the maximizing or minizing value based on the descendent turns. After all potential moves have been explored, it makes the move corresponding to the the simulation that returned the maximum value.
 
-The algorithm is a pretty straight-forward recursive function, each recursion switching between maximizing or minimizing. The base case is when a player wins, a tie or a max recursion depth is reached. A heuristic we haven't considered is when there are duplicate outcomes (e.g, more than a single winning move), but different search path lengths. How do we take the shortest path to the most successful outcome. 
+The algorithm is a pretty straight-forward recursive function, each recursion switching between maximizing or minimizing. The base case is when a player wins, a tie or a max recursion depth is reached. A heuristic we haven't considered is when there are duplicate outcomes (e.g. more than a single winning move), but different search path lengths. How do we take the shortest path to the most successful outcome. 
 
 So in the implementation, I also used the current depth to give us an additional heuristic to improve our decision making, yielding the shortest path possible to our desired outcome.
 

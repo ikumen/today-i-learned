@@ -1,7 +1,6 @@
 package com.gnoht.til.datastructures;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,6 +8,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * <a href="https://en.wikipedia.org/wiki/Trie">Trie</a> implementation with support for 
+ * adding, removing, contains and string lookup based on prefix.
  * 
  */
 public class Trie {
@@ -19,32 +20,73 @@ public class Trie {
     root = new TrieNode();
   }
 
+  /**
+   * Construct trie and add the following strings. slist is silently ignored
+   * if null or empty.
+   * @param slist collection of strings to add to trie.
+   */
   public Trie(Collection<String> slist) {
     this();
     addAll(slist);
   }
 
+  /**
+   * Add the given string to the trie, silently ignored if s null or empty
+   * @param s string to add. 
+   */
   public void add(String s) {
+    if (s == null || s.isEmpty())
+      return;
     root.add(s);
   }
 
+  /**
+   * Add given list of strings to the trie, silently ignored if list is null or empty.
+   * @param slist collection of strings to add.
+   */
   public void addAll(Collection<String> slist) {
+    if (slist == null || slist.isEmpty())
+      return;
     slist.forEach(this::add);
   }
 
+  /**
+   * Remove given string from trie if exists in trie, silenetly ignored if
+   * s is null or emtpy.
+   * @param s string to remove.
+   */
   public void remove(String s) {
+    if (s == null || s.isEmpty())
+      return;
     root.remove(s);
   }
 
+  /**
+   * Return true if s is contained in this trie.
+   * @param s string to check
+   * @return true if s is contained
+   */
   public boolean contains(String s) {
+    if (s == null || s.isEmpty())
+      return false;
     return root.contains(s);
   }
 
+  /**
+   * Return list of strings found in trie with given prefix, otherwise an emtpy list.
+   * @param prefix string prefix that resulting collection of strings start with.
+   * @return list of strings or empty list.
+   */
   public Collection<String> withPrefix(String prefix) {
+    if (prefix == null || prefix.isEmpty())
+      return Collections.emptyList();
     return root.withPrefix(prefix);
   }
 
-  static class TrieNode {
+  /**
+   * Internal representation of a node within this trie's search tree.
+   */
+  private static class TrieNode {
     Map<Character, TrieNode> children;
     boolean isComplete;
 
@@ -173,32 +215,6 @@ public class Trie {
             .collect(Collectors.joining(", ", "[", "]")));
       return sb.toString();            
     }
-  }
-
-
-  public static void main(String[] args) {
-    Trie trie = new Trie(
-      Arrays.asList(
-        "foo",
-        "foobar",
-        "food",
-        "foot",
-        "an",
-        "ant",
-        "app",
-        "apple"
-      ));
-
-    System.out.println(trie.contains("foobar"));
-    System.out.println(trie.contains("fool"));
-
-    System.out.println("foo----");
-    trie.withPrefix("foo").forEach(System.out::println);
-    System.out.println("fool----");
-    trie.withPrefix("fool").forEach(System.out::println);
-    System.out.println("fo----");
-    trie.withPrefix("fo").forEach(System.out::println);
-
   }
 }
 

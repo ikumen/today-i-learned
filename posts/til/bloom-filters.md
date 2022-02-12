@@ -33,10 +33,16 @@ Here's a naive implementation that demonstrates how a Bloom filter operates.
   </div>
   <div class="w-100 flex items-start pb2">
     <div class="left-col">
-      items in set (w/ keys)
+      items in filter (w/ keys)
     </div>
     <div class="right-col">
       <div id="item-keys" class="right-col"></div>
+    </div>
+  </div>
+  <div class="w-100 flex items-start pb2">
+    <div class="left-col"></div>
+    <div class="right-col">
+      <div class="right-col"><button id="clear-bf-btn">clear</button></div>
     </div>
   </div>
   <div class="w-100 flex items-start pb2">
@@ -84,8 +90,7 @@ The hash functions for a Bloom filter should be fast and produce uniformly distr
 
 As you add more items to a Bloom filter the false positive rate will increase. Adjusting the number of hash functions or size of bit array can also affect the false positive rate with relation to the number of items. Here's a [nice Bloom filter calculator](https://hur.st/bloomfilter/) that helps you choose the optimal number of hash functions and bit array for a target false positive rate.
 
-
-
+Here's a [naive Java implementation](https://github.com/ikumen/today-i-learned/tree/main/src/main/java/com/gnoht/til/bloom_filters/BloomFilter.java), or the [JavaScript implementation for this demo](https://github.com/ikumen/today-i-learned/blob/main/src/main/resources/META-INF/resources/static/js/bloom-filters.js) on my [GitHub repository](https://github.com/ikumen/today-i-learned).
 
 
 

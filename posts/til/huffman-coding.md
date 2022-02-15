@@ -388,7 +388,7 @@ Cool, that's the same encoding we generated manually from above. We've just fini
 - include the symbols and frequencies as a header of the encoded data (usually not practical due to size)
 - include just the prefix tree as a header of the encoded data
 
-Source for [the demo](https://github.com/ikumen/today-i-learned/blob/main/src/main/java/com/gnoht/til/huffman_coding/HuffmanCodingResource.java) and a [more complete implementation](https://github.com/ikumen/today-i-learned/blob/main/src/main/java/com/gnoht/til/huffman_coding/HuffmanCoding.java) can found on [GitHub](https://github.com/ikumen/today-i-learned).
+Here's the source for [the demo](https://github.com/ikumen/today-i-learned/blob/main/src/main/java/com/gnoht/til/huffman_coding/HuffmanCodingResource.java) and the repository [GitHub](https://github.com/ikumen/today-i-learned).
 
 
 

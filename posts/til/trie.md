@@ -27,26 +27,9 @@ date: 2021-10-18
 
 Strings stored in a trie are stored by character at the node level within the search tree. To visualize this, lets take the following words as an example, `ant`, `ape`, `and`, `an`, `apple`  and represent them in the tree.
 
-```
-* denotes the end of a word
+![trie diagram](/static/images/trie.png)
 
-              .
-              │
-              a
-              │
-          ┌───┴───┐
-          n*      p
-          │       │ 
-        ┌─┴─┐   ┌─┴─┐
-        │   │   │   │
-        d*  t*  e*  p*
-                    │
-                    p
-                    |
-                    l
-                    |
-                    e*
-```
+
 Each node in the tree represents a character, and whether the path to it forms a word (denoted by the `*`). Ancestor nodes along the path to a node forms the prefix shared by all of the nodes children. 
 
 prefix | full strings

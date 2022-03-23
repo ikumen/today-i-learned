@@ -1,5 +1,6 @@
 ---
 title: Bloom Filters
+weight: 99
 tags: data-structures, hash
 description: Bloom filters are probabilistic data structures that solve membership problems, where false positives are possible, while false negatives are not
 date: 2021-12-29

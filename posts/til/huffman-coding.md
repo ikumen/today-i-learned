@@ -1,5 +1,6 @@
 ---
 title: Huffman Coding 
+weight: 98
 tags: algorithms, prefix-code, lossless
 description: Huffman coding is an algorithm for lossless compression of data, this post is a brief introduction to the algorithm with a nice demo
 ---

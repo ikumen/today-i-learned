@@ -1,5 +1,6 @@
 ---
 title: Notes on general and binary trees
+weight: 0
 description: Notes and snippets of code for general and binary tree implementations
 ---
 

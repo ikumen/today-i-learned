@@ -1,5 +1,6 @@
 ---
 title: Tries
+weight: 100
 tags: data-structures
 description: An efficient search tree data structure commonly used for information retrieval like string matching and predictive text (e.g. autocomplete)
 date: 2021-10-18

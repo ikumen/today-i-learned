@@ -1,5 +1,6 @@
 ---
 title: Maze Generation with Kruskal's Algorithm
+weight: 99
 tags: algorithms, prims, fun
 description: A quick look at how Kruskal's algorithm can be used to generate a perfect maze
 ---

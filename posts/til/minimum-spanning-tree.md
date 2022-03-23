@@ -1,5 +1,6 @@
 ---
 title: Minimum Spanning Tree using Prim's Algorithm
+weight: 97
 tags: prims, algorithms, mst, p5js
 description: An example of a minimum spanning tree using Prim's algorithm
 ---

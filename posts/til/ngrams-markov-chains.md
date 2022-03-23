@@ -1,5 +1,6 @@
 ---
 title: Text Generation with Markov Chains 
+weight: 98
 tags: n-grams, markov-chains, algorithms
 description: A gentle introduction to Markov chains and how to use them to generate text
 ---

@@ -100,7 +100,8 @@ class SiteGenerator:
     listing_str = ""
 
     now_datestr = datetime.today().strftime('%Y-%m-%d')
-    for post in sorted(self.posts.values(), reverse=True, key=lambda p: (p.fm or  dict(date='')).get('date', now_datestr)):
+    #for post in sorted(self.posts.values(), reverse=True, key=lambda p: (p.fm or  dict(date='')).get('date', now_datestr)):
+    for post in sorted(self.posts.values(), reverse=True, key=lambda p: int((p.fm or  dict()).get('weight', '10'))):
     #for _, post in self.posts.items():
     # for post in self.posts.values():
       if post.fm is not None:

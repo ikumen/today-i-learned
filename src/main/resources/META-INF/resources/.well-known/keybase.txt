@@ -1,0 +1,81 @@
+==================================================================
+https://keybase.io/ikumen
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://gnoht.com
+  * I am ikumen (https://keybase.io/ikumen) on keybase.
+  * I have a public key with fingerprint 17C2 6D9A B890 05B8 1B91  3112 F55F 5C68 2734 D623
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101eb070deb44c3f1900b92cb899987cefadbe3a019b3f2b6ff04a7ad9771f467ea0a",
+      "fingerprint": "17c26d9ab89005b81b913112f55f5c682734d623",
+      "host": "keybase.io",
+      "key_id": "f55f5c682734d623",
+      "kid": "0101eb070deb44c3f1900b92cb899987cefadbe3a019b3f2b6ff04a7ad9771f467ea0a",
+      "uid": "c52cb6d190f52a40c9f1e0ae05872419",
+      "username": "ikumen"
+    },
+    "merkle_root": {
+      "ctime": 1652418346,
+      "hash_meta": "a949f6e19080477f56b324a705d8ebf936531b4aec7cb710b378079186e82049",
+      "seqno": 22478132
+    },
+    "revoke": {
+      "sig_ids": [
+        "b36ad43b75d9751726b5a4fc0ac968ad201da16466a8582d6fffd3a8e76b4b2a0f"
+      ]
+    },
+    "service": {
+      "hostname": "gnoht.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1652418383,
+  "expire_in": 157680000,
+  "prev": "fc73f7b9e063f466d3026fe80dd78066993c4e72728d96951ceefe0a087ff413",
+  "seqno": 24,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.1.13
+Comment: https://keybase.io/crypto
+
+yMK0AnicrVNdiFZFGP42s621hSIyMLU82WK2LvN35ucDyQuzMmQDc7c/+Zg58863
+p909ZzvnfFuyLKGWCNGvZLJEF9KPFForiBRbxuJNbVEbaGh6FRnqtoVSq1TYnMUg
+osvmZpjheZ73eZ935nDrnEpL08OTY2fEnjffaZoYzxoVM/xj51BgUrspqA4FvTC7
+QZ+FvKj1xjaoBggjDAYJZMEwFlGHFUJGkchIpZQUEThtDVCNsDLUEcOdQ0wLbZUQ
+2DEuQCMdtAcuTuqQDWRxUnhZLCLCrdJeBaHQSGwUphgTF4YujLgkgjLLCfXEnjQv
+Gd6c0Tl0xKm/84farL3/wP/PvhuzclHomdx6ERcSzVCkHAakAYVSEIZVCcwhS3Q/
+eHTc2+iHJBhuD/oh6+2DWpamRRltVMQlAPPQkyRl3Len855aPxTa87RiynHwVSRi
+QriQG0q8KRRaCcYpykOKDdMQicgIjAwVEgmFJQdJECtd5PBEkgZVQpiQmBJvIYPB
+tBfK6nlc96nlQfXRwFCuLaNGhL7fEAvCTaiZi5COFJfaEoStxpxxrmUoifXpOEu1
+BMENM0QjF2wcLqtlg3E0K16O6XL79STtKTqitN/7GcjSIo3SPn/dUxQDebVMpdg0
+UOKeBFO7rFAzcWL9C/GMQcjyOE18Sh75r8AkbQ/gqYE4g1pcIkLBJfKrrAOD5XuI
+BHXCKECc+iFySxHhDiSy1kfFuVI0YiCIINIqrkIcATg/SCSFcwzTfyTIvE9d95o+
+tkQXjQyC4fFPH7uy0tRSuWruFeXXqbRcc93fH2rBM1dX3n5x5/ZnTy/ctfjDp3+4
+9/h9D3Rmu1nyc/Py9TsWbf11Sb751bj50MFb9m4bubBm7eHqzB+fHfzm+LqxlT/d
+Mf/uxu1/LrVHLjZnS/bPz5TtuushkU2KG8Y+XzWWzmOQL31lsvvchrZvj6zat/bL
+dV8fu3SmecWO59H06M4Vi7due+/BN072tK4r5o7c9vgc09paPfkuuO4TjZfyRzpO
+tX1x8z3f/f7y9K0XFyRt9S7SXb8wWDXz1utlJJj6YGJvMb7n/Oj3J8wn00OLzj+3
+b+LcCx+/dmBNZfWhG7fXFl7fueX+1TMfjf42eu3R/XeePXv6q7c2vn7T8g1dcOx9
+PbNr+MCyU0c3j0z9snKqdmnLXz90gjY=
+=FsM1
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/ikumen
+
+==================================================================

@@ -23,7 +23,7 @@ Prim's algorithm takes a set of vertices (e.g. graph) as input and simply return
 * includes every vertex
 * the sum of edge weights/distances is minimal
 
-[Prim's algorithm](https://en.wikipedia.org/wiki/Prim%27s_algorithm) is very similar to [Kruskal's algorithm](/til/maze-generation/), with the following key steps:
+Prim's algorithm is very similar to [Kruskal's algorithm](/til/kruskal-maze-generator/), with the following key steps:
 
  1. select a vertex
  2. find all edges from this vertex and add to list of `traversable` edges

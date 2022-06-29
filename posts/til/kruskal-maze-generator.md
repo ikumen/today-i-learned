@@ -22,7 +22,7 @@ Kruskal's algorithm is an algorithm for finding a [minimum spanning tree](https:
   * includes every vertex
   * and has a minimum sum of weights among all the edges
 
-[Kruskal's algorithm](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm) is very similar to [Prim's algorithm](/minimum-spanning-tree/), but with the following key steps:
+[Kruskal's algorithm](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm) is very similar to [Prim's algorithm](/til/minimum-spanning-tree/), but with the following key steps:
 
  1. turn all vertices to individual [disjoint sets](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)
  2. build list of all `traversable` edges (sorted or as priority queue)
